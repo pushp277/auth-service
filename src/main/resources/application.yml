@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: auth-service
+    group: com.sageDelta
+  config:
+    import:
+      - optional:classpath:config/admin.yaml
+      - optional:classpath:config/secret.yaml
+
+---
+server:
+  port: 8003
+
+---

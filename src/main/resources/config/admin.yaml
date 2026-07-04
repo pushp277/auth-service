@@ -1,0 +1,4 @@
+app:
+  admin:
+    user: "${AUTH_SERVICE_ADMIN_USER:admin}"
+    password: "${AUTH_SERVICE_ADMIN_PASSWORD:admin123}"
