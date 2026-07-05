@@ -7,8 +7,21 @@ spring:
       - optional:classpath:config/admin.yaml
       - optional:classpath:config/secret.yaml
 
+# managing server configuration
 ---
 server:
   port: 8003
 
+# managing dataSource
 ---
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/sage_delta}
+    username: "${DB_USER:admin}"
+    password: "${DB_PASSWORD:admin123}"
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: ${DB_SQL_MODE:always}
+      schema-locations:
+        - optional:classpath:database/schema.sql

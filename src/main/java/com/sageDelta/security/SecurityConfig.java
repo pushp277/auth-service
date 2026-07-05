@@ -1,7 +1,6 @@
 package com.sageDelta.security;
 
 import com.sageDelta.security.config.AdminConfig;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -27,10 +26,16 @@ public class SecurityConfig {
        this.adminConfig = adminConfig;
     }
 
+
+    /**
+     * Added Admin level security
+     * @param http
+     * @return
+     */
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterChainAdmin(HttpSecurity http){
-        return http.securityMatcher("/api/admin").
+        return http.securityMatcher("/api/admin/**").
                 csrf(CsrfConfigurer::disable)
                         .authorizeHttpRequests(req -> {
                         req.requestMatchers("/**")
@@ -40,10 +45,17 @@ public class SecurityConfig {
                 .build();
     }
 
+    /**
+     * Added user level security
+     * @param http
+     * @return
+     */
     @Bean
     @Order(2)
     public SecurityFilterChain securityFilterChain(HttpSecurity http){
-        return http.csrf(CsrfConfigurer::disable).
+        return http
+                .securityMatcher("/**")
+                .csrf(CsrfConfigurer::disable).
                 authorizeHttpRequests(request -> {
                     request.anyRequest().permitAll();
         }).build();
