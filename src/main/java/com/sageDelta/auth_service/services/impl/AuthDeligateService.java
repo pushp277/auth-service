@@ -1,7 +1,7 @@
 package com.sageDelta.auth_service.services.impl;
 
 import com.sageDelta.auth_service.models.createUser.CreateUserResponse;
-import com.sageDelta.auth_service.models.verifyUser.VerifyUserResponse;
+import com.sageDelta.auth_service.models.loginUser.LoginUserResponse;
 import com.sageDelta.auth_service.services.AuthDeligate;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class AuthDeligateService implements AuthDeligate {
     }
 
     @Override
-    public VerifyUserResponse verify(){
+    public LoginUserResponse verify(){
         return null;
     }
 }

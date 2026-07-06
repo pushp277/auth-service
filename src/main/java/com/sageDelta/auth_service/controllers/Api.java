@@ -1,7 +1,7 @@
 package com.sageDelta.auth_service.controllers;
 
 import com.sageDelta.auth_service.models.createUser.CreateUserResponse;
-import com.sageDelta.auth_service.models.verifyUser.VerifyUserResponse;
+import com.sageDelta.auth_service.models.loginUser.LoginUserResponse;
 import com.sageDelta.auth_service.services.AuthDeligate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +21,8 @@ public interface Api {
         return ResponseEntity.ok(getAuthDeligate().create());
     }
 
-    @GetMapping("user/verify")
-    default ResponseEntity<VerifyUserResponse> verifyUser(){
+    @PostMapping("user/login")
+    default ResponseEntity<LoginUserResponse> loginUser(){
         return ResponseEntity.ok(getAuthDeligate().verify());
     }
 }
