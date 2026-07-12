@@ -1,6 +1,7 @@
 package com.sageDelta.auth_service.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
@@ -8,9 +9,16 @@ import java.util.Date;
 @Entity
 @Table(name="users")
 @Data
-public class Users {
+@Builder
+public class UsersEntity {
     @Id
     @Column(name="entity_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generate_id")
+    @SequenceGenerator(
+            name = "generate_id",
+            sequenceName = "generate_id",
+            allocationSize = 1
+    )
     private long entityId;
 
     private String username;
@@ -19,7 +27,7 @@ public class Users {
 
     private String salt;
 
-    @Column(name="data_of_birth")
+    @Column(name="date_of_birth")
     private Date dataOfBirth;
 
     @Column(name="first_name")
@@ -30,6 +38,6 @@ public class Users {
 
     @OneToOne
     @JoinColumn(name="contact_details_id", unique = true)
-    private ContactDetails contactDetails;
+    private ContactDetailsEntity contactDetails;
 
 }

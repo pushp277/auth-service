@@ -1,26 +1,35 @@
 package com.sageDelta.auth_service.models.createUser;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.Date;
 
 /**
  * Onboarding user to sageDelta system
- * @param name
+ * @param firstName
+ * @param lastName
  * @param dateOfBirth
  * @param password
  * @param contactDetails
  */
 public record CreateUserRequest(
-        @NotBlank
-        String name,
-        @NotNull
+        @NotBlank(message = "username is required")
+        String username,
+
+        @NotBlank(message = "firstName is required")
+        String firstName,
+
+        @NotBlank(message ="lastName is required")
+        String lastName,
+
+        @NotNull(message = "dateOfBirth is required")
         Date dateOfBirth,
-        @NotBlank
+        @NotBlank(message =" password is required")
         String password,
 
-        @NotNull
         ContactDetails contactDetails
 ){
 
@@ -30,10 +39,14 @@ public record CreateUserRequest(
      * @param phoneNumber
      * @param email
      */
-    record ContactDetails(Address address,
+    public record ContactDetails(Address address,
                            String phoneNumber,
+                           @Email
                            String email){
 
+        public ContactDetails{
+
+        }
         /**
          *
          * @param prefecture
@@ -42,10 +55,14 @@ public record CreateUserRequest(
          * @param line2
          * @param postalCode
          */
-        record Address(String prefecture,
+
+        public record Address(String prefecture,
+                       String country,
                        String city,
                        String line1,
                        String line2,
-                       int postalCode){}
+                       long postalCode){
+
+        }
     }
 }
