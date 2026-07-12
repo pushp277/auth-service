@@ -1,6 +1,6 @@
 package com.sageDelta.auth_service.annotations;
 
-import com.sageDelta.validators.UniqueUserValidator;
+import com.sageDelta.auth_service.validators.UniqueUserValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

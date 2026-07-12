@@ -1,4 +1,4 @@
-package com.sageDelta.validators;
+package com.sageDelta.auth_service.validators;
 
 import com.sageDelta.auth_service.annotations.UniqueUsers;
 import com.sageDelta.auth_service.repositories.UserRepository;
