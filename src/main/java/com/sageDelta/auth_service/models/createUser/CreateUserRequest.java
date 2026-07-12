@@ -10,7 +10,7 @@ import java.util.Date;
  * @param name
  * @param dateOfBirth
  * @param password
- * @param contactDetail
+ * @param contactDetails
  */
 public record CreateUserRequest(
         @NotBlank
@@ -21,7 +21,7 @@ public record CreateUserRequest(
         String password,
 
         @NotNull
-        ContactDetails contactDetail
+        ContactDetails contactDetails
 ){
 
     /**

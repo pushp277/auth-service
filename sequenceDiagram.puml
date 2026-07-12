@@ -1,0 +1,72 @@
+@startuml
+title Auth-Service Sequence Diagram
+participant Client as client
+box Auth Service
+participant "Id Provider" as idProvider
+participant Scheduler as scheduler
+database User_details as userDetails
+end box
+participant "Service Provider" as serviceProvider
+
+== Authenticate Client ==
+group User Login
+    client -> idProvider : POST /login \nHttpOnly Cookie
+    idProvider -> idProvider : process Cookie
+    idProvider -> userDetails : check user details
+    userDetails --> idProvider
+
+            activate idProvider
+                idProvider -> idProvider : createSession
+                idProvider -> idProvider: createAcessToken&\nRefreshToken
+
+           idProvider --> client : 200 OK Set Session Cookie, \n{accessToken: ###, \nrefreshToken: ###}
+            deactivate
+
+
+    alt failed
+    idProvider --> client : 404 Not Found
+    end
+end
+
+group Refresh Session
+    client -> idProvider: POST /api/refresh \n{refreshToken : ###}
+    activate idProvider
+        idProvider -> userDetails : Check refresh Token
+        userDetails --> idProvider
+        idProvider -> idProvider : refreshSession, \ncreateAccessToken&\nrefreshToken
+        idProvider --> client : 200 OK Set Session Cookie \n{accessToken: ###, \nrefreshToken: ###}
+    deactivate
+    alt failed
+        idProvider --> client: 400 bad Request
+    end
+end group
+
+group User Logout
+    client -> idProvider : POST /logout
+    idProvider -> idProvider : revoke Session & \nrefreshToken
+    idProvider --> client : 200 OK
+end group
+
+group Create User
+    client -> idProvider : POST /api/create \nCookie with Details
+    activate idProvider
+        idProvider -> idProvider : Process details
+        idProvider -> userDetails : update User Table
+        userDetails --> idProvider
+        idProvider --> client : 201 Created
+    deactivate
+    alt user already exists
+        idProvider --> client : 400 bad Request
+    end
+end group
+
+loop Every Day
+    scheduler -> scheduler : revoke Session \n revoke Refresh Token \n If Expired
+end
+== Client Calling Service Provider ==
+client -> serviceProvider : GET/POST/PUT /api/? \n Headers Authorization: Bearer accessToken
+serviceProvider --> client : 200 OK
+alt accessToken expired
+    serviceProvider --> client: 401 Unauthorized
+end
+@enduml
