@@ -1,9 +1,10 @@
 package com.sageDelta.auth_service.models.createUser;
 
+import com.sageDelta.auth_service.annotations.UniqueEmail;
+import com.sageDelta.auth_service.annotations.UniqueUsers;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 import java.util.Date;
 
@@ -17,6 +18,7 @@ import java.util.Date;
  */
 public record CreateUserRequest(
         @NotBlank(message = "username is required")
+        @UniqueUsers
         String username,
 
         @NotBlank(message = "firstName is required")
@@ -42,6 +44,7 @@ public record CreateUserRequest(
     public record ContactDetails(Address address,
                            String phoneNumber,
                            @Email
+                           @UniqueEmail
                            String email){
 
         public ContactDetails{
