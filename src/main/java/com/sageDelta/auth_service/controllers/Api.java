@@ -1,5 +1,7 @@
 package com.sageDelta.auth_service.controllers;
 
+import com.sageDelta.auth_service.models.createToken.CreateTokenRequest;
+import com.sageDelta.auth_service.models.createToken.CreateTokenResponse;
 import com.sageDelta.auth_service.models.createUser.CreateUserRequest;
 import com.sageDelta.auth_service.models.createUser.CreateUserResponse;
 import com.sageDelta.auth_service.models.loginUser.LoginUserRequest;
@@ -23,6 +25,7 @@ public interface Api {
     AuthDeligate getAuthDeligate();
 
     @PostMapping("/create")
+    @ResponseBody
     default ResponseEntity<CreateUserResponse> createUser(
             @Valid
             @ModelAttribute
@@ -31,6 +34,7 @@ public interface Api {
     }
 
     @PostMapping("/refresh")
+    @ResponseBody
     default ResponseEntity<RefreshResponse> refreshUser(
             @Valid
             @RequestBody
@@ -39,16 +43,27 @@ public interface Api {
         return ResponseEntity.ok(getAuthDeligate().refresh());
     }
 
-    @PostMapping("/login")
-    default ResponseEntity<LoginUserResponse> loginUser(
+    @PostMapping("/authorize")
+    default String authorizeUser(
             @Valid
             @RequestBody
             LoginUserRequest loginUserRequest
     ){
-        return ResponseEntity.ok(getAuthDeligate().login());
+
+        return "redirect:"+getAuthDeligate().authorize(loginUserRequest);
+    }
+
+    @GetMapping("/token")
+    @ResponseBody
+    default ResponseEntity<CreateTokenResponse> token(
+            @Valid
+            CreateTokenRequest createTokenRequest
+    ){
+        return ResponseEntity.ok(getAuthDeligate().token(createTokenRequest));
     }
 
     @PostMapping("/logout")
+    @ResponseBody
     default ResponseEntity<LogoutUserResponse> logoutUser(
             @Valid
             @RequestBody
