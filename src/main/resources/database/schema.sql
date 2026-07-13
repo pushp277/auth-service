@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS users
     password varchar(250) NOT NULL,
     salt varchar(200) NOT NULL,
     date_of_birth DATE NOT NULL,
-    contact_details_id BIGINT  NOT NULL,
+    contact_details_id BIGINT  NOT NULL
 
     FOREIGN KEY (contact_details_id)
     REFERENCES contact_details(entity_id)

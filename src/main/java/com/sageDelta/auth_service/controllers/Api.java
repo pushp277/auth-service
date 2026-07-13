@@ -5,12 +5,13 @@ import com.sageDelta.auth_service.models.createToken.CreateTokenResponse;
 import com.sageDelta.auth_service.models.createUser.CreateUserRequest;
 import com.sageDelta.auth_service.models.createUser.CreateUserResponse;
 import com.sageDelta.auth_service.models.loginUser.LoginUserRequest;
-import com.sageDelta.auth_service.models.loginUser.LoginUserResponse;
 import com.sageDelta.auth_service.models.logoutUser.LogoutUserRequest;
 import com.sageDelta.auth_service.models.logoutUser.LogoutUserResponse;
 import com.sageDelta.auth_service.models.refresh.RefreshRequest;
 import com.sageDelta.auth_service.models.refresh.RefreshResponse;
 import com.sageDelta.auth_service.services.AuthDeligate;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +50,6 @@ public interface Api {
             @RequestBody
             LoginUserRequest loginUserRequest
     ){
-
         return "redirect:"+getAuthDeligate().authorize(loginUserRequest);
     }
 

@@ -25,3 +25,7 @@ spring:
       mode: ${DB_SQL_MODE:always}
       schema-locations:
         - optional:classpath:database/schema.sql
+  data:
+    redis:
+      host: localhost
+      port: 6379
