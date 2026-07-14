@@ -15,4 +15,5 @@ public interface AuthDeligate {
     LogoutUserResponse logout();
     RefreshResponse refresh();
     CreateTokenResponse token(CreateTokenRequest createTokenRequest);
+    String login(LoginUserRequest loginUserRequest);
 }

@@ -104,4 +104,9 @@ public class AuthDeligateService implements AuthDeligate {
     public RefreshResponse refresh(){
         return null;
     }
+
+    @Override
+    public String login(LoginUserRequest loginUserRequest){
+        return null;
+    }
 }

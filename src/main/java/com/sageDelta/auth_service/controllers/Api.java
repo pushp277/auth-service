@@ -6,11 +6,10 @@ import com.sageDelta.auth_service.models.createUser.CreateUserRequest;
 import com.sageDelta.auth_service.models.createUser.CreateUserResponse;
 import com.sageDelta.auth_service.models.loginUser.LoginUserRequest;
 import com.sageDelta.auth_service.models.logoutUser.LogoutUserRequest;
-import com.sageDelta.auth_service.models.logoutUser.LogoutUserResponse;
 import com.sageDelta.auth_service.models.refresh.RefreshRequest;
 import com.sageDelta.auth_service.models.refresh.RefreshResponse;
 import com.sageDelta.auth_service.services.AuthDeligate;
-import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -48,9 +47,17 @@ public interface Api {
     default String authorizeUser(
             @Valid
             @RequestBody
-            LoginUserRequest loginUserRequest
+            LoginUserRequest loginUserRequest,
+            HttpServletRequest request
     ){
-        return "redirect:"+getAuthDeligate().authorize(loginUserRequest);
+        HttpSession session = request.getSession(false);
+
+        if(session == null){
+           return "redirect:login" ;
+        }
+
+        request.getSession();
+
     }
 
     @GetMapping("/token")
@@ -62,13 +69,20 @@ public interface Api {
         return ResponseEntity.ok(getAuthDeligate().token(createTokenRequest));
     }
 
+    @PostMapping("/login")
+    default String loginUser(
+            @Valid
+            @RequestBody
+            LoginUserRequest loginUserRequest){
+        return getAuthDeligate().login(loginUserRequest);
+    }
+
     @PostMapping("/logout")
-    @ResponseBody
-    default ResponseEntity<LogoutUserResponse> logoutUser(
+    default String logoutUser(
             @Valid
             @RequestBody
             LogoutUserRequest logoutUserRequest
     ){
-        return ResponseEntity.ok(getAuthDeligate().logout());
+        return "redirect:logout";
     }
 }
