@@ -10,10 +10,15 @@ import com.sageDelta.auth_service.models.refresh.RefreshRequest;
 import com.sageDelta.auth_service.models.refresh.RefreshResponse;
 import com.sageDelta.auth_service.services.AuthDeligate;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.UUID;
 
 /**
  * @author Raj, Pushp
@@ -44,20 +49,24 @@ public interface Api {
     }
 
     @PostMapping("/authorize")
-    default String authorizeUser(
+    default void authorizeUser(
             @Valid
             @RequestBody
             LoginUserRequest loginUserRequest,
-            HttpServletRequest request
-    ){
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
         HttpSession session = request.getSession(false);
 
-        if(session == null){
-           return "redirect:login" ;
+        if (session == null) {
+            response.sendRedirect("login");
         }
 
         request.getSession();
 
+        UUID uuid = UUID.randomUUID();
+
+        response.sendRedirect("callback");
     }
 
     @GetMapping("/token")
