@@ -87,11 +87,13 @@ public interface Api {
     }
 
     @PostMapping("/logout")
-    default String logoutUser(
+    default void logoutUser(
             @Valid
             @RequestBody
             LogoutUserRequest logoutUserRequest
     ){
-        return "redirect:logout";
+
+       // revokeToken();
+        // revokeSession();
     }
 }
