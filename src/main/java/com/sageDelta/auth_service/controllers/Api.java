@@ -94,6 +94,6 @@ public interface Api {
     ){
 
        // revokeToken();
-        // revokeSession();
+        // revokeSessionCookie();
     }
 }
