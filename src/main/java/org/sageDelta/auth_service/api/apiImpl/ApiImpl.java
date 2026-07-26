@@ -14,7 +14,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class ApiImpl implements ApiApi {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Override
     public ResponseEntity<Void> createNewUser(URI host, User user){

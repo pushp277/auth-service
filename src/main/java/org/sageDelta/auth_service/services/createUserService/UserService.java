@@ -26,11 +26,27 @@ public class UserService {
 
     public void createUser(User user){
         Optional<ContactDetails> contactDetailsOptional = Optional.ofNullable(user.getContactDetails());
+        ContactDetailsEntity contactDetailsEntity;
+
         String username = user.getUsername();
         if(userRepository.existsByUsername(username)){
             log.error("username: {} already exists", username);
             throw new UserAlreadyExists("User Already exists");
         }
+
+        String firstName = user.getFirstName();
+        String lastName = user.getLastName();
+        String password = user.getPassword();
+        String salt = Utils.generateSalt();
+        String hashedPassword = Utils.getHash(password, salt);
+        UsersEntity usersEntity = UsersEntity.builder()
+                .username(username)
+                .password(hashedPassword)
+                .salt(salt)
+                .firstName(firstName)
+                .lastName(lastName)
+                .build();
+
         if(contactDetailsOptional.isPresent()){
             ContactDetails contactDetails = contactDetailsOptional.get();
             log.debug("Contact details: {}", contactDetails);
@@ -45,7 +61,7 @@ public class UserService {
             Long phoneNumer = Long.valueOf(Optional.ofNullable(contactDetails.getPhoneNumber()).orElse("0"));
 
 
-           ContactDetailsEntity contactDetailsEntity = ContactDetailsEntity.builder()
+           contactDetailsEntity = ContactDetailsEntity.builder()
                    .email(email)
                    .phoneNumber(phoneNumer)
                    .build();
@@ -69,27 +85,23 @@ public class UserService {
                        .build();
            }
 
-           long contactId = contactDetailsRepository.save(contactDetailsEntity).getEntityId();
+            contactDetailsRepository.save(contactDetailsEntity);
 
-           String firstName = user.getFirstName();
-           String lastName = user.getLastName();
-           String password = user.getPassword();
-           String salt = Utils.generateSalt();
-           String hashedPassword = Utils.getHash(password, salt);
-
-           UsersEntity usersEntity = UsersEntity.builder()
-                   .username(username)
-                   .password(hashedPassword)
-                   .salt(salt)
-                   .firstName(firstName)
-                   .lastName(lastName)
-                   .contactDetails(contactDetailsEntity)
-                   .build();
-
-           userRepository.save(usersEntity);
-
-           log.info("new User created successfully");
+           usersEntity = UsersEntity.builder()
+                    .username(username)
+                    .password(hashedPassword)
+                    .salt(salt)
+                    .firstName(firstName)
+                    .lastName(lastName)
+                    .contactDetails(contactDetailsEntity)
+                    .build();
         }
+
+
+
+        userRepository.save(usersEntity);
+
+        log.info("new User created successfully");
     }
 
 }
