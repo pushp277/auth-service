@@ -9,8 +9,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(scanBasePackages = {
-		"com.sageDelta.auth_service",
-		"com.sageDelta.security"})
+		"org.sageDelta.auth_service",
+		"org.sageDelta.security"})
 @EnableConfigurationProperties({
 		AdminConfig.class,
 		SecretConfig.class})

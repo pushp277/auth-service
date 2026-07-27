@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  * ContactDetails
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-26T12:46:18.956321047Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-27T01:45:11.325097752Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ContactDetails {
 
   private String email;
@@ -53,7 +53,7 @@ public class ContactDetails {
    * @return email
    */
   @NotNull 
-  @Schema(name = "email", example = "pushp.raj@email.com", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "email", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("email")
   public String getEmail() {
     return email;
@@ -73,8 +73,8 @@ public class ContactDetails {
    * Get phoneNumber
    * @return phoneNumber
    */
-  @Pattern(regexp = "\\d{10,11}") 
-  @Schema(name = "phoneNumber", example = "08043325354", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Pattern(regexp = "^\\d{10,11}$") 
+  @Schema(name = "phoneNumber", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("phoneNumber")
   public @Nullable String getPhoneNumber() {
     return phoneNumber;

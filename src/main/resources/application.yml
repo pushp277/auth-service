@@ -15,6 +15,12 @@ server:
     session:
       timeout: 24h
 
+# logging
+---
+logging:
+  level:
+    root: DEBUG
+
 # managing dataSource
 ---
 spring:
@@ -25,7 +31,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   sql:
     init:
-      mode: ${DB_SQL_MODE:never}
+      mode: ${DB_SQL_MODE:always}
       schema-locations:
         - optional:classpath:database/schema.sql
   data:

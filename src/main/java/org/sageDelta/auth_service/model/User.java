@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  * User
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-26T12:46:18.956321047Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-27T01:45:11.325097752Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class User {
 
   private String username;
@@ -64,8 +64,8 @@ public class User {
    * Get username
    * @return username
    */
-  @NotNull @Size(min = 3) 
-  @Schema(name = "username", example = "pushp.raj", requiredMode = Schema.RequiredMode.REQUIRED)
+  @NotNull @Size(min = 3, max = 50) 
+  @Schema(name = "username", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("username")
   public String getUsername() {
     return username;
@@ -86,7 +86,7 @@ public class User {
    * @return firstName
    */
   @NotNull @Size(min = 1, max = 50) 
-  @Schema(name = "firstName", example = "Pushp", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "firstName", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("firstName")
   public String getFirstName() {
     return firstName;
@@ -107,7 +107,7 @@ public class User {
    * @return lastName
    */
   @NotNull @Size(min = 1, max = 50) 
-  @Schema(name = "lastName", example = "Raj", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "lastName", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("lastName")
   public String getLastName() {
     return lastName;
@@ -128,7 +128,7 @@ public class User {
    * @return dateOfBirth
    */
   @Valid 
-  @Schema(name = "dateOfBirth", example = "08/11/1999", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "dateOfBirth", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateOfBirth")
   public @Nullable LocalDate getDateOfBirth() {
     return dateOfBirth;
@@ -149,7 +149,7 @@ public class User {
    * @return password
    */
   @NotNull @Size(min = 3) 
-  @Schema(name = "password", example = "****", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "password", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("password")
   public String getPassword() {
     return password;

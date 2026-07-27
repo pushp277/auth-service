@@ -14,6 +14,10 @@ import org.sageDelta.auth_service.repositories.UserRepository;
 import org.sageDelta.auth_service.utils.Utils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -27,7 +31,7 @@ public class UserService {
     public void createUser(User user){
         Optional<ContactDetails> contactDetailsOptional = Optional.ofNullable(user.getContactDetails());
         ContactDetailsEntity contactDetailsEntity;
-
+        log.info("user details: {}", user);
         String username = user.getUsername();
         if(userRepository.existsByUsername(username)){
             log.error("username: {} already exists", username);
@@ -39,12 +43,19 @@ public class UserService {
         String password = user.getPassword();
         String salt = Utils.generateSalt();
         String hashedPassword = Utils.getHash(password, salt);
+        Optional<LocalDate> dateOfBirthOptional = Optional.ofNullable(user.getDateOfBirth());
+        Date dateOfBirth = new Date();
+        if(dateOfBirthOptional.isPresent()){
+            LocalDate localDate = dateOfBirthOptional.get();
+            dateOfBirth = Date.from(localDate.atStartOfDay(ZoneId.of("UTC")).toInstant());
+        }
         UsersEntity usersEntity = UsersEntity.builder()
                 .username(username)
                 .password(hashedPassword)
                 .salt(salt)
                 .firstName(firstName)
                 .lastName(lastName)
+                .dataOfBirth(dateOfBirth)
                 .build();
 
         if(contactDetailsOptional.isPresent()){

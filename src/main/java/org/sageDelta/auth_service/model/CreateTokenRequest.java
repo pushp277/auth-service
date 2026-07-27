@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * CreateTokenRequest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-26T12:46:18.956321047Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-27T01:45:11.325097752Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class CreateTokenRequest {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -36,7 +36,7 @@ public class CreateTokenRequest {
    * @return accessCode
    */
   
-  @Schema(name = "accessCode", example = "abc123", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "accessCode", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("accessCode")
   public @Nullable String getAccessCode() {
     return accessCode;

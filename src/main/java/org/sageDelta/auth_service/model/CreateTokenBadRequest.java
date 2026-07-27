@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * CreateTokenBadRequest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-26T12:46:18.956321047Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-27T01:45:11.325097752Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class CreateTokenBadRequest {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -36,7 +36,7 @@ public class CreateTokenBadRequest {
    * @return code
    */
   
-  @Schema(name = "code", example = "BAD_REQUEST", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("code")
   public @Nullable String getCode() {
     return code;

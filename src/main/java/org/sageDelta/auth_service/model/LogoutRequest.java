@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * LogoutRequest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-26T12:46:18.956321047Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-27T01:45:11.325097752Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class LogoutRequest {
 
   private String refreshToken;

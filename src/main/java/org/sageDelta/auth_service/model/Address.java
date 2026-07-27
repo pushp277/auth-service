@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * Address
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-26T12:46:18.956321047Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-27T01:45:11.325097752Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Address {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -48,7 +48,7 @@ public class Address {
    * @return line1
    */
   
-  @Schema(name = "line1", example = "1-29", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "line1", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("line1")
   public @Nullable String getLine1() {
     return line1;
@@ -69,7 +69,7 @@ public class Address {
    * @return line2
    */
   
-  @Schema(name = "line2", example = "2-401", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "line2", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("line2")
   public @Nullable String getLine2() {
     return line2;
@@ -90,7 +90,7 @@ public class Address {
    * @return city
    */
   
-  @Schema(name = "city", example = "Yokohama", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "city", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("city")
   public @Nullable String getCity() {
     return city;
@@ -111,7 +111,7 @@ public class Address {
    * @return prefecture
    */
   
-  @Schema(name = "prefecture", example = "Kanagawa", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "prefecture", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("prefecture")
   public @Nullable String getPrefecture() {
     return prefecture;
@@ -132,7 +132,7 @@ public class Address {
    * @return postalCode
    */
   
-  @Schema(name = "postalCode", example = "2260019", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "postalCode", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("postalCode")
   public @Nullable Integer getPostalCode() {
     return postalCode;

@@ -13,7 +13,6 @@ import org.sageDelta.auth_service.model.LogoutRequest;
 import org.springframework.lang.Nullable;
 import org.sageDelta.auth_service.model.RefreshTokenRequest;
 import org.sageDelta.auth_service.model.RefreshTokenResponse;
-import java.net.URI;
 import java.util.UUID;
 import org.sageDelta.auth_service.model.User;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -43,7 +42,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-26T12:46:18.956321047Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-27T01:45:11.325097752Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 @Validated
 @Tag(name = "Clients", description = "the Clients API")
 public interface ApiApi {
@@ -114,13 +113,13 @@ public interface ApiApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createNewUser(
-        @NotNull @Parameter(name = "Host", description = "", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "Host", required = true) URI host,
+        @NotNull @Parameter(name = "Host", description = "", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "Host", required = true) String host,
         @Parameter(name = "User", description = "info regarding create User endpoint ", required = true) @Valid @RequestBody User user
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"code\" : \"BAD_REQUEST\" }";
+                    String exampleString = "{ \"code\" : \"code\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -166,12 +165,12 @@ public interface ApiApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"accessToken\" : \"abc1234\", \"refreshToken\" : \"abc2345\" }";
+                    String exampleString = "{ \"accessToken\" : \"accessToken\", \"refreshToken\" : \"refreshToken\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"code\" : \"BAD_REQUEST\" }";
+                    String exampleString = "{ \"code\" : \"code\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
