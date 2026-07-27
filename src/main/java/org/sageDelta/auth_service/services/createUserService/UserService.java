@@ -1,11 +1,10 @@
 package org.sageDelta.auth_service.services.createUserService;
 
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sageDelta.auth_service.entity.ContactDetailsEntity;
 import org.sageDelta.auth_service.entity.UsersEntity;
-import org.sageDelta.auth_service.exceptions.create.UserAlreadyExists;
+import org.sageDelta.auth_service.exceptions.create.UserAlreadyExistsException;
 import org.sageDelta.auth_service.model.Address;
 import org.sageDelta.auth_service.model.ContactDetails;
 import org.sageDelta.auth_service.model.User;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -35,7 +33,7 @@ public class UserService {
         String username = user.getUsername();
         if(userRepository.existsByUsername(username)){
             log.error("username: {} already exists", username);
-            throw new UserAlreadyExists("User Already exists");
+            throw new UserAlreadyExistsException("User Already exists");
         }
 
         String firstName = user.getFirstName();
@@ -66,15 +64,15 @@ public class UserService {
             String email = contactDetails.getEmail();
             if(contactDetailsRepository.existsByEmail(email)){
                 log.error("user email: {} already exists", email);
-                throw new UserAlreadyExists("User Already exists");
+                throw new UserAlreadyExistsException("User Already exists");
             }
 
-            Long phoneNumer = Long.valueOf(Optional.ofNullable(contactDetails.getPhoneNumber()).orElse("0"));
+            Long phoneNumber = Long.valueOf(Optional.ofNullable(contactDetails.getPhoneNumber()).orElse("0"));
 
 
            contactDetailsEntity = ContactDetailsEntity.builder()
                    .email(email)
-                   .phoneNumber(phoneNumer)
+                   .phoneNumber(phoneNumber)
                    .build();
 
            if(addressOptional.isPresent()){
@@ -86,7 +84,7 @@ public class UserService {
                long postalCode = Optional.ofNullable(address.getPostalCode()).orElse(0);
 
                contactDetailsEntity = ContactDetailsEntity.builder()
-                       .phoneNumber(phoneNumer)
+                       .phoneNumber(phoneNumber)
                        .email(email)
                        .level1(line1)
                        .level2(line2)

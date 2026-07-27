@@ -2,6 +2,7 @@ package org.sageDelta.auth_service.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
@@ -16,44 +17,34 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * LogoutRequest
+ * LoginValidationError
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-27T13:49:37.225813252Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
-public class LogoutRequest {
+public class LoginValidationError {
 
-  private String refreshToken;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String message;
 
-  public LogoutRequest() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public LogoutRequest(String refreshToken) {
-    this.refreshToken = refreshToken;
-  }
-
-  public LogoutRequest refreshToken(String refreshToken) {
-    this.refreshToken = refreshToken;
+  public LoginValidationError message(@Nullable String message) {
+    this.message = message;
     return this;
   }
 
   /**
-   * Get refreshToken
-   * @return refreshToken
+   * Get message
+   * @return message
    */
-  @NotNull 
-  @Schema(name = "refreshToken", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("refreshToken")
-  public String getRefreshToken() {
-    return refreshToken;
+  
+  @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("message")
+  public @Nullable String getMessage() {
+    return message;
   }
 
-  @JsonProperty("refreshToken")
-  public void setRefreshToken(String refreshToken) {
-    this.refreshToken = refreshToken;
+  @JsonProperty("message")
+  public void setMessage(@Nullable String message) {
+    this.message = message;
   }
 
   @Override
@@ -64,20 +55,20 @@ public class LogoutRequest {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    LogoutRequest logoutRequest = (LogoutRequest) o;
-    return Objects.equals(this.refreshToken, logoutRequest.refreshToken);
+    LoginValidationError loginValidationError = (LoginValidationError) o;
+    return Objects.equals(this.message, loginValidationError.message);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(refreshToken);
+    return Objects.hash(message);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class LogoutRequest {\n");
-    sb.append("    refreshToken: ").append(toIndentedString(refreshToken)).append("\n");
+    sb.append("class LoginValidationError {\n");
+    sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");
     return sb.toString();
   }

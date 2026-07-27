@@ -17,34 +17,58 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * CreateTokenRequest
+ * LoginRequest
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-27T13:49:37.225813252Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
-public class CreateTokenRequest {
+public class LoginRequest {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private @Nullable String accessCode;
+  private @Nullable String username;
 
-  public CreateTokenRequest accessCode(@Nullable String accessCode) {
-    this.accessCode = accessCode;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String password;
+
+  public LoginRequest username(@Nullable String username) {
+    this.username = username;
     return this;
   }
 
   /**
-   * Get accessCode
-   * @return accessCode
+   * Get username
+   * @return username
    */
   
-  @Schema(name = "accessCode", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("accessCode")
-  public @Nullable String getAccessCode() {
-    return accessCode;
+  @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("username")
+  public @Nullable String getUsername() {
+    return username;
   }
 
-  @JsonProperty("accessCode")
-  public void setAccessCode(@Nullable String accessCode) {
-    this.accessCode = accessCode;
+  @JsonProperty("username")
+  public void setUsername(@Nullable String username) {
+    this.username = username;
+  }
+
+  public LoginRequest password(@Nullable String password) {
+    this.password = password;
+    return this;
+  }
+
+  /**
+   * Get password
+   * @return password
+   */
+  
+  @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("password")
+  public @Nullable String getPassword() {
+    return password;
+  }
+
+  @JsonProperty("password")
+  public void setPassword(@Nullable String password) {
+    this.password = password;
   }
 
   @Override
@@ -55,20 +79,22 @@ public class CreateTokenRequest {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CreateTokenRequest createTokenRequest = (CreateTokenRequest) o;
-    return Objects.equals(this.accessCode, createTokenRequest.accessCode);
+    LoginRequest loginRequest = (LoginRequest) o;
+    return Objects.equals(this.username, loginRequest.username) &&
+        Objects.equals(this.password, loginRequest.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(accessCode);
+    return Objects.hash(username, password);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CreateTokenRequest {\n");
-    sb.append("    accessCode: ").append(toIndentedString(accessCode)).append("\n");
+    sb.append("class LoginRequest {\n");
+    sb.append("    username: ").append(toIndentedString(username)).append("\n");
+    sb.append("    password: ").append("*").append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -9,6 +9,8 @@ import org.sageDelta.auth_service.model.CreateNewUserError;
 import org.sageDelta.auth_service.model.CreateTokenBadRequest;
 import org.sageDelta.auth_service.model.CreateTokenRequest;
 import org.sageDelta.auth_service.model.CreateTokenResponse;
+import org.sageDelta.auth_service.model.LoginRequest;
+import org.sageDelta.auth_service.model.LoginValidationError;
 import org.sageDelta.auth_service.model.LogoutRequest;
 import org.springframework.lang.Nullable;
 import org.sageDelta.auth_service.model.RefreshTokenRequest;
@@ -42,7 +44,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-27T01:45:11.325097752Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-27T13:49:37.225813252Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 @Validated
 @Tag(name = "Clients", description = "the Clients API")
 public interface ApiApi {
@@ -90,9 +92,8 @@ public interface ApiApi {
     /**
      * POST /api/v1/create : create new user
      *
-     * @param host  (required)
      * @param user info regarding create User endpoint  (required)
-     * @return redirect user to login page (status code 302)
+     * @return user created successfully (status code 200)
      *         or user already exists or any field is missing (status code 400)
      */
     @Operation(
@@ -100,7 +101,7 @@ public interface ApiApi {
         summary = "create new user",
         tags = { "Clients" },
         responses = {
-            @ApiResponse(responseCode = "302", description = "redirect user to login page"),
+            @ApiResponse(responseCode = "200", description = "user created successfully"),
             @ApiResponse(responseCode = "400", description = "user already exists or any field is missing", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = CreateNewUserError.class))
             })
@@ -113,7 +114,6 @@ public interface ApiApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createNewUser(
-        @NotNull @Parameter(name = "Host", description = "", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "Host", required = true) String host,
         @Parameter(name = "User", description = "info regarding create User endpoint ", required = true) @Valid @RequestBody User user
     ) {
         getRequest().ifPresent(request -> {
@@ -221,9 +221,55 @@ public interface ApiApi {
     }
 
 
+    String PATH_LOGIN_USER = "/api/v1/login";
+    /**
+     * POST /api/v1/login : allow user to login to the system
+     * client login
+     *
+     * @param host  (required)
+     * @param loginRequest  (optional)
+     * @return login successful (status code 304)
+     *         or bad request (status code 400)
+     */
+    @Operation(
+        operationId = "loginUser",
+        summary = "allow user to login to the system",
+        description = "client login",
+        tags = { "Clients" },
+        responses = {
+            @ApiResponse(responseCode = "304", description = "login successful"),
+            @ApiResponse(responseCode = "400", description = "bad request", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = LoginValidationError.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = ApiApi.PATH_LOGIN_USER,
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    default ResponseEntity<Void> loginUser(
+        @NotNull @Parameter(name = "Host", description = "", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "Host", required = true) String host,
+        @Parameter(name = "LoginRequest", description = "") @Valid @RequestBody(required = false) @Nullable LoginRequest loginRequest
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
     String PATH_LOGOUT_USER = "/api/v1/logout";
     /**
-     * POST /api/v1/logout
+     * DELETE /api/v1/logout
      * client logout
      *
      * @param sessionCookie  (required)
@@ -239,9 +285,9 @@ public interface ApiApi {
         }
     )
     @RequestMapping(
-        method = RequestMethod.POST,
+        method = RequestMethod.DELETE,
         value = ApiApi.PATH_LOGOUT_USER,
-        consumes = { "application/json" }
+        consumes = { "pplication/json" }
     )
     default ResponseEntity<Void> logoutUser(
         @NotNull @Parameter(name = "sessionCookie", description = "", required = true, in = ParameterIn.COOKIE) @CookieValue(name = "sessionCookie") String sessionCookie,
