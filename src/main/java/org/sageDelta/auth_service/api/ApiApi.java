@@ -11,7 +11,6 @@ import org.sageDelta.auth_service.model.CreateTokenRequest;
 import org.sageDelta.auth_service.model.CreateTokenResponse;
 import org.sageDelta.auth_service.model.LoginRequest;
 import org.sageDelta.auth_service.model.LoginValidationError;
-import org.sageDelta.auth_service.model.LogoutRequest;
 import org.springframework.lang.Nullable;
 import org.sageDelta.auth_service.model.RefreshTokenRequest;
 import org.sageDelta.auth_service.model.RefreshTokenResponse;
@@ -44,9 +43,9 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-27T13:49:37.225813252Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-28T13:27:11.515124430Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 @Validated
-@Tag(name = "Clients", description = "the Clients API")
+@Tag(name = "client api", description = "the client api API")
 public interface ApiApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -67,7 +66,7 @@ public interface ApiApi {
     @Operation(
         operationId = "authorizeUser",
         summary = "authorize user",
-        tags = { "Clients" },
+        tags = { "client api" },
         responses = {
             @ApiResponse(responseCode = "302", description = "redirect to base url with code"),
             @ApiResponse(responseCode = "400", description = "authoriztion failed for this client")
@@ -99,7 +98,7 @@ public interface ApiApi {
     @Operation(
         operationId = "createNewUser",
         summary = "create new user",
-        tags = { "Clients" },
+        tags = { "client api" },
         responses = {
             @ApiResponse(responseCode = "200", description = "user created successfully"),
             @ApiResponse(responseCode = "400", description = "user already exists or any field is missing", content = {
@@ -143,7 +142,7 @@ public interface ApiApi {
         operationId = "exchangeToken",
         summary = "exchange access_code",
         description = "exhange access_code for accessToken and refreshToken",
-        tags = { "Clients" },
+        tags = { "client api" },
         responses = {
             @ApiResponse(responseCode = "200", description = "exchange token response", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = CreateTokenResponse.class))
@@ -191,7 +190,7 @@ public interface ApiApi {
     @Operation(
         operationId = "generateRefreshToken",
         summary = "generate accessToken and refreshToken",
-        tags = { "Clients" },
+        tags = { "client api" },
         responses = {
             @ApiResponse(responseCode = "200", description = "response to get value", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = RefreshTokenResponse.class))
@@ -221,6 +220,72 @@ public interface ApiApi {
     }
 
 
+    String PATH_GITHUB_CALLBACK = "/api/oauth2/github/callback";
+    /**
+     * GET /api/oauth2/github/callback : callback with code and state
+     * callback send by github id provider
+     *
+     * @param code  (required)
+     * @param state  (required)
+     * @return found response send by github oauth2 (status code 302)
+     *         or Validation Error (status code 400)
+     */
+    @Operation(
+        operationId = "githubCallback",
+        summary = "callback with code and state",
+        description = "callback send by github id provider",
+        tags = { "outh2 callback" },
+        responses = {
+            @ApiResponse(responseCode = "302", description = "found response send by github oauth2"),
+            @ApiResponse(responseCode = "400", description = "Validation Error")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = ApiApi.PATH_GITHUB_CALLBACK
+    )
+    default ResponseEntity<Void> githubCallback(
+        @NotNull @Parameter(name = "code", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "code", required = true) String code,
+        @NotNull @Parameter(name = "state", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "state", required = true) String state
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    String PATH_GOOGLE_CALLBACK = "/api/oauth2/google/callback";
+    /**
+     * GET /api/oauth2/google/callback : callback with code and state
+     * callback send by google id provider
+     *
+     * @param code  (required)
+     * @param state  (required)
+     * @return found response send by google oauth2 (status code 302)
+     *         or Vaidation Error (status code 400)
+     */
+    @Operation(
+        operationId = "googleCallback",
+        summary = "callback with code and state",
+        description = "callback send by google id provider",
+        tags = { "outh2 callback" },
+        responses = {
+            @ApiResponse(responseCode = "302", description = "found response send by google oauth2"),
+            @ApiResponse(responseCode = "400", description = "Vaidation Error")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = ApiApi.PATH_GOOGLE_CALLBACK
+    )
+    default ResponseEntity<Void> googleCallback(
+        @NotNull @Parameter(name = "code", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "code", required = true) String code,
+        @NotNull @Parameter(name = "state", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "state", required = true) String state
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
     String PATH_LOGIN_USER = "/api/v1/login";
     /**
      * POST /api/v1/login : allow user to login to the system
@@ -235,7 +300,7 @@ public interface ApiApi {
         operationId = "loginUser",
         summary = "allow user to login to the system",
         description = "client login",
-        tags = { "Clients" },
+        tags = { "client api" },
         responses = {
             @ApiResponse(responseCode = "304", description = "login successful"),
             @ApiResponse(responseCode = "400", description = "bad request", content = {
@@ -269,29 +334,27 @@ public interface ApiApi {
 
     String PATH_LOGOUT_USER = "/api/v1/logout";
     /**
-     * DELETE /api/v1/logout
+     * DELETE /api/v1/logout : revoke user refresh token and session
      * client logout
      *
      * @param sessionCookie  (required)
-     * @param logoutRequest  (optional)
      * @return Logout user by expiring session and refreshToken (status code 204)
      */
     @Operation(
         operationId = "logoutUser",
+        summary = "revoke user refresh token and session",
         description = "client logout",
-        tags = { "Clients" },
+        tags = { "client api" },
         responses = {
             @ApiResponse(responseCode = "204", description = "Logout user by expiring session and refreshToken")
         }
     )
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = ApiApi.PATH_LOGOUT_USER,
-        consumes = { "pplication/json" }
+        value = ApiApi.PATH_LOGOUT_USER
     )
     default ResponseEntity<Void> logoutUser(
-        @NotNull @Parameter(name = "sessionCookie", description = "", required = true, in = ParameterIn.COOKIE) @CookieValue(name = "sessionCookie") String sessionCookie,
-        @Parameter(name = "LogoutRequest", description = "") @Valid @RequestBody(required = false) @Nullable LogoutRequest logoutRequest
+        @NotNull @Parameter(name = "sessionCookie", description = "", required = true, in = ParameterIn.COOKIE) @CookieValue(name = "sessionCookie") String sessionCookie
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
