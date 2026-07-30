@@ -8,9 +8,15 @@ import java.security.SecureRandom;
 import java.util.Base64;
 
 @Slf4j
-public class Utils {
+public final class Utils {
+    private static SecureRandom secureRandom;
+
+    static {
+        secureRandom = new SecureRandom();
+    }
+
     public static String generateSalt(){
-        SecureRandom secureRandom = new SecureRandom();
+
         byte[] salt = new byte[16];
         secureRandom.nextBytes(salt);
         return Base64.getEncoder().encodeToString(salt);
@@ -31,5 +37,11 @@ public class Utils {
         }
 
         return null;
+    }
+
+    public static String getAuthCode(){
+        byte[] authCode = new byte[4];
+        secureRandom.nextBytes(authCode);
+        return Base64.getEncoder().encodeToString(authCode);
     }
 }

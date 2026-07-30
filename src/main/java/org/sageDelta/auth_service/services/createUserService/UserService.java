@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sageDelta.auth_service.entity.ContactDetailsEntity;
 import org.sageDelta.auth_service.entity.UsersEntity;
+import org.sageDelta.auth_service.enums.ProviderEnum;
+import org.sageDelta.auth_service.exceptions.authorize.UserDoesNotExist;
+import org.sageDelta.auth_service.exceptions.authorize.UserPasswordIsWrong;
 import org.sageDelta.auth_service.exceptions.create.UserAlreadyExistsException;
 import org.sageDelta.auth_service.model.Address;
 import org.sageDelta.auth_service.model.ContactDetails;
@@ -54,6 +57,7 @@ public class UserService {
                 .firstName(firstName)
                 .lastName(lastName)
                 .dataOfBirth(dateOfBirth)
+                .provider(ProviderEnum.SAGE_DELTA.getName())
                 .build();
 
         if(contactDetailsOptional.isPresent()){
@@ -103,6 +107,7 @@ public class UserService {
                     .firstName(firstName)
                     .lastName(lastName)
                     .contactDetails(contactDetailsEntity)
+                   .provider(ProviderEnum.SAGE_DELTA.getName())
                     .build();
         }
 
@@ -112,5 +117,36 @@ public class UserService {
 
         log.info("new User created successfully");
     }
+
+
+    public String verifyUser(String username, String password){
+
+        log.info("[Login][verifyUser] method call for user: {}", username);
+        Optional<UsersEntity> userOptional = Optional.ofNullable(userRepository.findByUsername(username));
+        if(userOptional.isEmpty()) {
+            log.error("User doesn't exist");
+            throw new UserDoesNotExist("User doesn't exist");
+        }
+
+        UsersEntity user = userOptional.get();
+        String passwordHash = user.getPassword();
+        String salt = user.getSalt();
+
+        if(passwordHash == null || salt == null){
+            log.error("User doesn't exist");
+            throw new UserPasswordIsWrong("User password is wrong");
+        }
+
+        if(Utils.getHash(password, salt).equals(passwordHash)){
+            log.info("user: {} logged in", username);
+            return Utils.getAuthCode();
+        }
+
+        log.error("Entered password is wrong");
+
+        throw new UserPasswordIsWrong("User password is wrong");
+    }
+
+
 
 }

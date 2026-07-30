@@ -3,7 +3,7 @@ package org.sageDelta.auth_service.enums;
 import java.util.List;
 
 public enum ProviderEnum {
-    GOOGLE,
+     GOOGLE,
     GITHUB,
     SAGE_DELTA;
 

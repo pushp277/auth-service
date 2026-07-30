@@ -22,10 +22,10 @@ CREATE TABLE IF NOT EXISTS users
     last_name VARCHAR(256) NOT NULL,
     username varchar(256) NOT NULL,
     provider varchar(256) NOT NULL,
-    password varchar(250) NULL,
-    salt varchar(200) NOT NULL,
+    password varchar(256) NULL,
+    salt varchar(200) NULL,
     date_of_birth DATE NULL,
-    contact_details_id BIGINT  NOT NULL,
+    contact_details_id BIGINT  NULL,
 
     FOREIGN KEY (contact_details_id)
     REFERENCES contact_details(entity_id)

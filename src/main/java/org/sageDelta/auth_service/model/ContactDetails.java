@@ -21,7 +21,7 @@ import jakarta.annotation.Generated;
  * ContactDetails
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-28T13:27:11.515124430Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-30T13:27:50.214555798Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ContactDetails {
 
   private String email;

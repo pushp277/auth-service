@@ -10,6 +10,7 @@ import org.sageDelta.auth_service.model.CreateTokenBadRequest;
 import org.sageDelta.auth_service.model.CreateTokenRequest;
 import org.sageDelta.auth_service.model.CreateTokenResponse;
 import org.sageDelta.auth_service.model.LoginRequest;
+import org.sageDelta.auth_service.model.LoginResponse;
 import org.sageDelta.auth_service.model.LoginValidationError;
 import org.springframework.lang.Nullable;
 import org.sageDelta.auth_service.model.RefreshTokenRequest;
@@ -43,7 +44,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-28T13:27:11.515124430Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-30T13:27:50.214555798Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 @Validated
 @Tag(name = "client api", description = "the client api API")
 public interface ApiApi {
@@ -291,9 +292,8 @@ public interface ApiApi {
      * POST /api/v1/login : allow user to login to the system
      * client login
      *
-     * @param host  (required)
      * @param loginRequest  (optional)
-     * @return login successful (status code 304)
+     * @return login successful (status code 200)
      *         or bad request (status code 400)
      */
     @Operation(
@@ -302,7 +302,9 @@ public interface ApiApi {
         description = "client login",
         tags = { "client api" },
         responses = {
-            @ApiResponse(responseCode = "304", description = "login successful"),
+            @ApiResponse(responseCode = "200", description = "login successful", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = LoginResponse.class))
+            }),
             @ApiResponse(responseCode = "400", description = "bad request", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = LoginValidationError.class))
             })
@@ -314,12 +316,16 @@ public interface ApiApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Void> loginUser(
-        @NotNull @Parameter(name = "Host", description = "", required = true, in = ParameterIn.HEADER) @RequestHeader(value = "Host", required = true) String host,
+    default ResponseEntity<LoginResponse> loginUser(
         @Parameter(name = "LoginRequest", description = "") @Valid @RequestBody(required = false) @Nullable LoginRequest loginRequest
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"accessCode\" : \"accessCode\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                     String exampleString = "{ \"message\" : \"message\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);

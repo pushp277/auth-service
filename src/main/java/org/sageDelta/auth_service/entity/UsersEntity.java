@@ -1,14 +1,18 @@
 package org.sageDelta.auth_service.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
 @Table(name="users")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class UsersEntity {
     @Id
@@ -26,6 +30,8 @@ public class UsersEntity {
     private String password;
 
     private String salt;
+
+    private String provider;
 
     @Column(name="date_of_birth")
     private Date dataOfBirth;

@@ -2,6 +2,7 @@ package org.sageDelta.auth_service.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
@@ -16,44 +17,34 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * CreateNewUserError
+ * LoginResponse
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-30T13:27:50.214555798Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
-public class CreateNewUserError {
+public class LoginResponse {
 
-  private String code;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private @Nullable String accessCode;
 
-  public CreateNewUserError() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public CreateNewUserError(String code) {
-    this.code = code;
-  }
-
-  public CreateNewUserError code(String code) {
-    this.code = code;
+  public LoginResponse accessCode(@Nullable String accessCode) {
+    this.accessCode = accessCode;
     return this;
   }
 
   /**
-   * Get code
-   * @return code
+   * Get accessCode
+   * @return accessCode
    */
-  @NotNull 
-  @Schema(name = "code", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("code")
-  public String getCode() {
-    return code;
+  
+  @Schema(name = "accessCode", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("accessCode")
+  public @Nullable String getAccessCode() {
+    return accessCode;
   }
 
-  @JsonProperty("code")
-  public void setCode(String code) {
-    this.code = code;
+  @JsonProperty("accessCode")
+  public void setAccessCode(@Nullable String accessCode) {
+    this.accessCode = accessCode;
   }
 
   @Override
@@ -64,20 +55,20 @@ public class CreateNewUserError {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CreateNewUserError createNewUserError = (CreateNewUserError) o;
-    return Objects.equals(this.code, createNewUserError.code);
+    LoginResponse loginResponse = (LoginResponse) o;
+    return Objects.equals(this.accessCode, loginResponse.accessCode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(code);
+    return Objects.hash(accessCode);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CreateNewUserError {\n");
-    sb.append("    code: ").append(toIndentedString(code)).append("\n");
+    sb.append("class LoginResponse {\n");
+    sb.append("    accessCode: ").append(toIndentedString(accessCode)).append("\n");
     sb.append("}");
     return sb.toString();
   }
