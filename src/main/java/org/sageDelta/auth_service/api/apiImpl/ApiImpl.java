@@ -7,7 +7,8 @@ import org.sageDelta.auth_service.exceptions.authorize.UserDoesNotExist;
 import org.sageDelta.auth_service.model.LoginRequest;
 import org.sageDelta.auth_service.model.LoginResponse;
 import org.sageDelta.auth_service.model.User;
-import org.sageDelta.auth_service.services.createUserService.UserService;
+import org.sageDelta.auth_service.services.createUserService.AuthUiService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -16,8 +17,18 @@ import org.springframework.stereotype.Controller;
 @Slf4j
 public class ApiImpl implements ApiApi {
 
-    private final UserService userService;
+    private final AuthUiService userService;
 
+    @Override
+    public ResponseEntity<Void> authorizeUser(
+           String clientId,
+           String redirectUri,
+           String sessionCookie,
+            String scope
+    ) {
+
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
 
     @Override
     public ResponseEntity<Void> createNewUser(User user){

@@ -15,7 +15,6 @@ import org.sageDelta.auth_service.model.LoginValidationError;
 import org.springframework.lang.Nullable;
 import org.sageDelta.auth_service.model.RefreshTokenRequest;
 import org.sageDelta.auth_service.model.RefreshTokenResponse;
-import java.util.UUID;
 import org.sageDelta.auth_service.model.User;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,7 +43,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-30T13:27:50.214555798Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-31T09:19:40.586087384Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 @Validated
 @Tag(name = "client api", description = "the client api API")
 public interface ApiApi {
@@ -57,10 +56,10 @@ public interface ApiApi {
     /**
      * GET /api/v1/authorize : authorize user
      *
-     * @param redirectType  (required)
      * @param clientId  (required)
      * @param redirectUri  (required)
      * @param sessionCookie  (optional)
+     * @param scope  (optional)
      * @return redirect to base url with code (status code 302)
      *         or authoriztion failed for this client (status code 400)
      */
@@ -78,10 +77,10 @@ public interface ApiApi {
         value = ApiApi.PATH_AUTHORIZE_USER
     )
     default ResponseEntity<Void> authorizeUser(
-        @NotNull @Parameter(name = "redirect_type", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "redirect_type", required = true) String redirectType,
-        @NotNull @Parameter(name = "client_id", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "client_id", required = true) UUID clientId,
+        @NotNull @Parameter(name = "client_id", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "client_id", required = true) String clientId,
         @NotNull @Parameter(name = "redirect_uri", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "redirect_uri", required = true) String redirectUri,
-        @Parameter(name = "sessionCookie", description = "", in = ParameterIn.COOKIE) @CookieValue(name = "sessionCookie", required = false) @Nullable UUID sessionCookie
+        @Parameter(name = "sessionCookie", description = "", in = ParameterIn.COOKIE) @CookieValue(name = "sessionCookie", required = false) @Nullable String sessionCookie,
+        @Parameter(name = "scope", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "scope", required = false) @Nullable String scope
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

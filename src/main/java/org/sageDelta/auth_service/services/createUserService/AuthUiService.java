@@ -24,7 +24,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserService {
+public class AuthUiService {
 
    private final ContactDetailsRepository contactDetailsRepository;
    private final UserRepository userRepository;
