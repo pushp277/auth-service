@@ -1,19 +1,16 @@
 package org.sageDelta.auth_service;
 
-import org.sageDelta.security.config.AdminConfig;
-import org.sageDelta.security.config.SecretConfig;
+import org.sageDelta.auth_service.security.config.AdminConfig;
+import org.sageDelta.auth_service.security.config.SecretConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication(scanBasePackages = {
-		"org.sageDelta.auth_service",
-		"org.sageDelta.security"})
-@EnableConfigurationProperties({
-		AdminConfig.class,
-		SecretConfig.class})
+@SpringBootApplication
+@ConfigurationPropertiesScan
 @EnableTransactionManagement
 public class AuthServiceApplication {
 	public static void main(String[] args) {

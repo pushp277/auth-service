@@ -9,7 +9,6 @@ import org.sageDelta.auth_service.model.CreateNewUserError;
 import org.sageDelta.auth_service.model.CreateTokenBadRequest;
 import org.sageDelta.auth_service.model.CreateTokenRequest;
 import org.sageDelta.auth_service.model.CreateTokenResponse;
-import org.sageDelta.auth_service.model.LoginRequest;
 import org.sageDelta.auth_service.model.LoginResponse;
 import org.sageDelta.auth_service.model.LoginValidationError;
 import org.springframework.lang.Nullable;
@@ -43,7 +42,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-31T09:19:40.586087384Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-08T13:58:53.025511798Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 @Validated
 @Tag(name = "client api", description = "the client api API")
 public interface ApiApi {
@@ -52,13 +51,13 @@ public interface ApiApi {
         return Optional.empty();
     }
 
-    String PATH_AUTHORIZE_USER = "/api/v1/authorize";
+    String PATH_AUTHORIZE_USER = "/api/v1/oauth2/authorize";
     /**
-     * GET /api/v1/authorize : authorize user
+     * GET /api/v1/oauth2/authorize : authorize user
      *
      * @param clientId  (required)
      * @param redirectUri  (required)
-     * @param sessionCookie  (optional)
+     * @param SESSION_  (optional)
      * @param scope  (optional)
      * @return redirect to base url with code (status code 302)
      *         or authoriztion failed for this client (status code 400)
@@ -79,7 +78,7 @@ public interface ApiApi {
     default ResponseEntity<Void> authorizeUser(
         @NotNull @Parameter(name = "client_id", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "client_id", required = true) String clientId,
         @NotNull @Parameter(name = "redirect_uri", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "redirect_uri", required = true) String redirectUri,
-        @Parameter(name = "sessionCookie", description = "", in = ParameterIn.COOKIE) @CookieValue(name = "sessionCookie", required = false) @Nullable String sessionCookie,
+        @Parameter(name = "SESSION_", description = "", in = ParameterIn.COOKIE) @CookieValue(name = "SESSION_", required = false) @Nullable String SESSION_,
         @Parameter(name = "scope", description = "", in = ParameterIn.QUERY) @Valid @RequestParam(value = "scope", required = false) @Nullable String scope
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -129,9 +128,9 @@ public interface ApiApi {
     }
 
 
-    String PATH_EXCHANGE_TOKEN = "/api/v1/token";
+    String PATH_EXCHANGE_TOKEN = "/api/v1/oauth2/token";
     /**
-     * POST /api/v1/token : exchange access_code
+     * POST /api/v1/oauth2/token : exchange access_code
      * exhange access_code for accessToken and refreshToken
      *
      * @param createTokenRequest  (optional)
@@ -180,9 +179,9 @@ public interface ApiApi {
     }
 
 
-    String PATH_GENERATE_REFRESH_TOKEN = "/api/v1/refresh";
+    String PATH_GENERATE_REFRESH_TOKEN = "/api/v1/oauth2/refresh";
     /**
-     * POST /api/v1/refresh : generate accessToken and refreshToken
+     * POST /api/v1/oauth2/refresh : generate accessToken and refreshToken
      *
      * @param refreshTokenRequest  (optional)
      * @return response to get value (status code 200)
@@ -291,7 +290,6 @@ public interface ApiApi {
      * POST /api/v1/login : allow user to login to the system
      * client login
      *
-     * @param loginRequest  (optional)
      * @return login successful (status code 200)
      *         or bad request (status code 400)
      */
@@ -313,10 +311,10 @@ public interface ApiApi {
         method = RequestMethod.POST,
         value = ApiApi.PATH_LOGIN_USER,
         produces = { "application/json" },
-        consumes = { "application/json" }
+        consumes = { "application/x-www-form-urlencoded" }
     )
     default ResponseEntity<LoginResponse> loginUser(
-        @Parameter(name = "LoginRequest", description = "") @Valid @RequestBody(required = false) @Nullable LoginRequest loginRequest
+        
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -342,7 +340,7 @@ public interface ApiApi {
      * DELETE /api/v1/logout : revoke user refresh token and session
      * client logout
      *
-     * @param sessionCookie  (required)
+     * @param SESSION_  (required)
      * @return Logout user by expiring session and refreshToken (status code 204)
      */
     @Operation(
@@ -359,7 +357,7 @@ public interface ApiApi {
         value = ApiApi.PATH_LOGOUT_USER
     )
     default ResponseEntity<Void> logoutUser(
-        @NotNull @Parameter(name = "sessionCookie", description = "", required = true, in = ParameterIn.COOKIE) @CookieValue(name = "sessionCookie") String sessionCookie
+        @NotNull @Parameter(name = "SESSION_", description = "", required = true, in = ParameterIn.COOKIE) @CookieValue(name = "SESSION_") String SESSION_
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

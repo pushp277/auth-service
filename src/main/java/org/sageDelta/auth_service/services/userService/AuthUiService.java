@@ -1,4 +1,4 @@
-package org.sageDelta.auth_service.services.createUserService;
+package org.sageDelta.auth_service.services.userService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,9 @@ import org.sageDelta.auth_service.model.User;
 import org.sageDelta.auth_service.repositories.ContactDetailsRepository;
 import org.sageDelta.auth_service.repositories.UserRepository;
 import org.sageDelta.auth_service.utils.Utils;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,6 +31,8 @@ public class AuthUiService {
 
    private final ContactDetailsRepository contactDetailsRepository;
    private final UserRepository userRepository;
+   private final PasswordEncoder passwordEncoder;
+   private SecurityContext securityContext = SecurityContextHolder.getContext();
 
     public void createUser(User user){
         Optional<ContactDetails> contactDetailsOptional = Optional.ofNullable(user.getContactDetails());
@@ -42,8 +47,8 @@ public class AuthUiService {
         String firstName = user.getFirstName();
         String lastName = user.getLastName();
         String password = user.getPassword();
-        String salt = Utils.generateSalt();
-        String hashedPassword = Utils.getHash(password, salt);
+        String hashedPassword = passwordEncoder.encode(password);
+
         Optional<LocalDate> dateOfBirthOptional = Optional.ofNullable(user.getDateOfBirth());
         Date dateOfBirth = new Date();
         if(dateOfBirthOptional.isPresent()){
@@ -53,7 +58,6 @@ public class AuthUiService {
         UsersEntity usersEntity = UsersEntity.builder()
                 .username(username)
                 .password(hashedPassword)
-                .salt(salt)
                 .firstName(firstName)
                 .lastName(lastName)
                 .dataOfBirth(dateOfBirth)
@@ -103,7 +107,6 @@ public class AuthUiService {
            usersEntity = UsersEntity.builder()
                     .username(username)
                     .password(hashedPassword)
-                    .salt(salt)
                     .firstName(firstName)
                     .lastName(lastName)
                     .contactDetails(contactDetailsEntity)
@@ -122,7 +125,7 @@ public class AuthUiService {
     public String verifyUser(String username, String password){
 
         log.info("[Login][verifyUser] method call for user: {}", username);
-        Optional<UsersEntity> userOptional = Optional.ofNullable(userRepository.findByUsername(username));
+        Optional<UsersEntity> userOptional = userRepository.findByUsername(username);
         if(userOptional.isEmpty()) {
             log.error("User doesn't exist");
             throw new UserDoesNotExist("User doesn't exist");
@@ -139,6 +142,7 @@ public class AuthUiService {
 
         if(Utils.getHash(password, salt).equals(passwordHash)){
             log.info("user: {} logged in", username);
+            log.info("SecurityContext: {}", securityContext.getAuthentication());
             return Utils.getAuthCode();
         }
 
@@ -146,7 +150,5 @@ public class AuthUiService {
 
         throw new UserPasswordIsWrong("User password is wrong");
     }
-
-
 
 }
