@@ -8,9 +8,7 @@ import org.sageDelta.auth_service.model.User;
 import org.sageDelta.auth_service.services.userService.AuthUiService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;

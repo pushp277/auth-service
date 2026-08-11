@@ -39,16 +39,8 @@ spring:
       mode: ${DB_SQL_MODE:always}
       schema-locations:
         - optional:classpath:database/schema.sql
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      timeout: 300
-      total-pool: 15
-      max-idle: 10
-      min-idle: 5
 
 
 ---
 client-ui:
-  url: http://localhost:3000
+  url: ${ID_PROVIDER_UI:http://localhost:3000}
