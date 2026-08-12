@@ -44,6 +44,11 @@ spring:
       host: ${DATA_REDIS_HOST:localhost}
       post: ${DATA_REDIS_PORT:6379}
 
+  session:
+    timeout: 1m
+    remember-me-timeout: 5m # 30 days
+    remember-me-secret: ${REMEMBER_ME_SECRET:wUJb/PEKXQDMhqnEP+B3GsDtI/cwCjyAdBxZ4TNg0/0=}
+
 
 
 ---

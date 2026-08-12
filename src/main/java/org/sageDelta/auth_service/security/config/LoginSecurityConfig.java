@@ -23,7 +23,9 @@ import java.util.Optional;
 public class LoginSecurityConfig {
 
     @Bean
-    public SecurityFilterChain loginSecurityFilterChain(HttpSecurity http, LoginEntryPoint loginEntryPoint) {
+    public SecurityFilterChain loginSecurityFilterChain(HttpSecurity http,
+                                                        LoginEntryPoint loginEntryPoint,
+                                                        SessionConfig sessionConfig) {
 
         log.info("Security is enabled for login");
         return http
@@ -41,6 +43,10 @@ public class LoginSecurityConfig {
                 })
                 .formLogin((form) -> form
                         .loginProcessingUrl("/api/v1/login"))
+                .rememberMe(remember -> remember
+                        .rememberMeParameter("rememberMe")
+                        .key(sessionConfig.rememberMeSecret())
+                        .tokenValiditySeconds((int)sessionConfig.rememberMeTimeout().toSeconds()))
 
                 .build();
     }
