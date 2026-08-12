@@ -39,6 +39,11 @@ spring:
       mode: ${DB_SQL_MODE:always}
       schema-locations:
         - optional:classpath:database/schema.sql
+  data:
+    redis:
+      host: ${DATA_REDIS_HOST:localhost}
+      post: ${DATA_REDIS_PORT:6379}
+
 
 
 ---
