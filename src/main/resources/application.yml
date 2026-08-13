@@ -45,8 +45,8 @@ spring:
       post: ${DATA_REDIS_PORT:6379}
 
   session:
-    timeout: 1m
-    remember-me-timeout: 5m # 30 days
+    timeout: 1d
+    remember-me-timeout: 30d # 30 days
     remember-me-secret: ${REMEMBER_ME_SECRET:wUJb/PEKXQDMhqnEP+B3GsDtI/cwCjyAdBxZ4TNg0/0=}
 
 
@@ -54,3 +54,11 @@ spring:
 ---
 client-ui:
   url: ${ID_PROVIDER_UI:http://localhost:3000}
+
+---
+clients:
+  lets-split:
+    client-id: ${CLIENT_ID:11001}
+    redirect-urls:
+      - http://localhost:3000
+    client-secret: ${LETS_SPLIT_CLIENT_SECRET:g7hyJ3SDJActBtuXdb4OCN951IJUVillRrvyuSHWmV0=}
