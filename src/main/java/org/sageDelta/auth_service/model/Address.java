@@ -2,7 +2,6 @@ package org.sageDelta.auth_service.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.lang.Nullable;
@@ -20,22 +19,17 @@ import jakarta.annotation.Generated;
  * Address
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-08T13:58:53.025511798Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-14T09:02:47.038480464Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class Address {
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String line1;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String line2;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String city;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String prefecture;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Integer postalCode;
 
   public Address line1(@Nullable String line1) {

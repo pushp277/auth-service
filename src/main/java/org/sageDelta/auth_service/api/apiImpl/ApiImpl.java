@@ -2,11 +2,12 @@ package org.sageDelta.auth_service.api.apiImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.sageDelta.auth_service.api.ApiApi;
 import org.sageDelta.auth_service.clients.BasicClient;
 import org.sageDelta.auth_service.configs.ClientUIConfig;
 import org.sageDelta.auth_service.exceptions.clients.ClientNotFoundException;
 import org.sageDelta.auth_service.exceptions.clients.ClientUrlNotFoundException;
+import org.sageDelta.auth_service.model.CreateTokenRequest;
+import org.sageDelta.auth_service.model.CreateTokenResponse;
 import org.sageDelta.auth_service.model.User;
 import org.sageDelta.auth_service.services.userService.AuthUiService;
 import org.sageDelta.auth_service.utils.Utils;
@@ -18,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Controller
@@ -37,8 +39,6 @@ public class ApiImpl implements ApiApi {
            String session,
             String scope
     ) {
-
-
             BasicClient client = clients.stream()
                     .filter(elm ->
                     elm.clientId().equals(clientId))
@@ -74,6 +74,15 @@ public class ApiImpl implements ApiApi {
                     .build();
 
 
+    }
+
+    @Override
+    public ResponseEntity<CreateTokenResponse> exchangeToken(CreateTokenRequest request){
+
+        String key = rrequest.getAccessCode();
+        Optional<String> optionalKey = Optional.ofNullable(redisTemplate.opsForValue().get())
+
+        return ResponseEntity.ok(new CreateTokenResponse());
     }
 
     @Override

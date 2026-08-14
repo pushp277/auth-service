@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * CreateNewUserError
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-08T13:58:53.025511798Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-14T09:02:47.038480464Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class CreateNewUserError {
 
   private String code;

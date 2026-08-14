@@ -2,7 +2,6 @@ package org.sageDelta.auth_service.model;
 
 import java.net.URI;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.sageDelta.auth_service.model.Address;
@@ -21,15 +20,13 @@ import jakarta.annotation.Generated;
  * ContactDetails
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-08T13:58:53.025511798Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-14T09:02:47.038480464Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class ContactDetails {
 
   private String email;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String phoneNumber;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable Address address;
 
   public ContactDetails() {
