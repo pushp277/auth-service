@@ -2,6 +2,7 @@ package org.sageDelta.auth_service.api;
 
 import org.sageDelta.auth_service.exceptions.authorize.UserDoesNotExist;
 import org.sageDelta.auth_service.exceptions.authorize.UserPasswordIsWrong;
+import org.sageDelta.auth_service.exceptions.clients.ClientNotFoundException;
 import org.sageDelta.auth_service.exceptions.create.UserAlreadyExistsException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,6 +28,14 @@ public class ApiAdvice {
 
     @ExceptionHandler(UserDoesNotExist.class)
     public ResponseEntity<String> userDoesNotExist(Exception ex){
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ClientNotFoundException.class)
+    public ResponseEntity<String> clientNotFound(Exception ex){
+
         return ResponseEntity
                 .badRequest()
                 .body(ex.getMessage());

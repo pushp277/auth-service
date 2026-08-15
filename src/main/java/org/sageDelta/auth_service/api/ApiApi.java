@@ -42,7 +42,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-14T09:02:47.038480464Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-14T09:08:03.513235097Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 @Validated
 @Tag(name = "client api", description = "the client api API")
 public interface ApiApi {
@@ -133,7 +133,7 @@ public interface ApiApi {
      * POST /api/v1/oauth2/token : exchange access_code
      * exhange access_code for accessToken and refreshToken
      *
-     * @param createTokenRequest  (optional)
+     * @param createTokenRequest  (required)
      * @return exchange token response (status code 200)
      *         or bad request (status code 400)
      */
@@ -158,7 +158,7 @@ public interface ApiApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<CreateTokenResponse> exchangeToken(
-        @Parameter(name = "CreateTokenRequest", description = "") @Valid @RequestBody(required = false) @Nullable CreateTokenRequest createTokenRequest
+        @Parameter(name = "CreateTokenRequest", description = "", required = true) @Valid @RequestBody CreateTokenRequest createTokenRequest
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

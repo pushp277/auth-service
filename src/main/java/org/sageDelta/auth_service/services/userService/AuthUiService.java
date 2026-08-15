@@ -2,18 +2,20 @@ package org.sageDelta.auth_service.services.userService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.sageDelta.auth_service.clients.BasicClient;
 import org.sageDelta.auth_service.entity.ContactDetailsEntity;
 import org.sageDelta.auth_service.entity.UsersEntity;
 import org.sageDelta.auth_service.enums.ProviderEnum;
 import org.sageDelta.auth_service.exceptions.authorize.UserDoesNotExist;
 import org.sageDelta.auth_service.exceptions.authorize.UserPasswordIsWrong;
+import org.sageDelta.auth_service.exceptions.clients.ClientNotFoundException;
 import org.sageDelta.auth_service.exceptions.create.UserAlreadyExistsException;
-import org.sageDelta.auth_service.model.Address;
-import org.sageDelta.auth_service.model.ContactDetails;
-import org.sageDelta.auth_service.model.User;
+import org.sageDelta.auth_service.model.*;
 import org.sageDelta.auth_service.repositories.ContactDetailsRepository;
 import org.sageDelta.auth_service.repositories.UserRepository;
+import org.sageDelta.auth_service.services.token.JwtTokenService;
 import org.sageDelta.auth_service.utils.Utils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,6 +36,8 @@ public class AuthUiService {
    private final UserRepository userRepository;
    private final PasswordEncoder passwordEncoder;
    private SecurityContext securityContext = SecurityContextHolder.getContext();
+
+
 
     public void createUser(User user){
         Optional<ContactDetails> contactDetailsOptional = Optional.ofNullable(user.getContactDetails());
@@ -150,5 +155,7 @@ public class AuthUiService {
 
         throw new UserPasswordIsWrong("User password is wrong");
     }
+
+
 
 }

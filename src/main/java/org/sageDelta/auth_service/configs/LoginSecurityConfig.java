@@ -1,10 +1,11 @@
-package org.sageDelta.auth_service.security.config;
+package org.sageDelta.auth_service.configs;
 
 import lombok.extern.slf4j.Slf4j;
 import org.sageDelta.auth_service.entity.UsersEntity;
 import org.sageDelta.auth_service.exceptions.authorize.UserDoesNotExist;
 import org.sageDelta.auth_service.repositories.UserRepository;
 import org.sageDelta.auth_service.security.beans.LoginEntryPoint;
+import org.sageDelta.auth_service.properties.SessionProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,7 +26,7 @@ public class LoginSecurityConfig {
     @Bean
     public SecurityFilterChain loginSecurityFilterChain(HttpSecurity http,
                                                         LoginEntryPoint loginEntryPoint,
-                                                        SessionConfig sessionConfig) {
+                                                        SessionProperties sessionConfig) {
 
         log.info("Security is enabled for login");
         return http

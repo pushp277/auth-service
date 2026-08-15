@@ -44,4 +44,17 @@ public final class Utils {
         secureRandom.nextBytes(authCode);
         return Base64.getEncoder().encodeToString(authCode);
     }
+
+    public static String generateAccessToken(){
+        byte[] accessToken = new byte[16];
+        secureRandom.nextBytes(accessToken);
+
+        return Base64.getEncoder().encodeToString(accessToken);
+    }
+
+    public static String generateRefreshToken(){
+        byte[] refreshToken = new byte[16];
+
+       return Base64.getEncoder().encodeToString(refreshToken);
+    }
 }

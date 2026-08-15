@@ -4,7 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.sageDelta.auth_service.configs.ClientUIConfig;
+import org.sageDelta.auth_service.properties.IdProviderUiProperties;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class LoginEntryPoint implements AuthenticationEntryPoint {
 
-    private final ClientUIConfig clientUIConfig;
+    private final IdProviderUiProperties clientUIConfig;
 
     @Override
     public void commence(HttpServletRequest request,
