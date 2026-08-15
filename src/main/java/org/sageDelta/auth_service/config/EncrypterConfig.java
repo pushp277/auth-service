@@ -1,4 +1,4 @@
-package org.sageDelta.auth_service.configs;
+package org.sageDelta.auth_service.config;
 import com.nimbusds.jose.JOSEObjectType;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -40,8 +40,4 @@ public class EncrypterConfig {
             return new ECDSASigner(privateKey);
     }
 
-    @Bean
-    public ObjectMapper objectMapper(){
-        return new ObjectMapper();
-    }
 }

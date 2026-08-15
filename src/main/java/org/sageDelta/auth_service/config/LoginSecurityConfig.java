@@ -1,4 +1,4 @@
-package org.sageDelta.auth_service.configs;
+package org.sageDelta.auth_service.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.sageDelta.auth_service.entity.UsersEntity;

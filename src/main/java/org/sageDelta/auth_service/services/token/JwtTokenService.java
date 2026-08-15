@@ -18,7 +18,6 @@ import java.util.Date;
 public class JwtTokenService {
 
     private final ECDSASigner signer;
-    private final ObjectMapper objectMapper;
     private final JWSHeader header;
     private final KeyStoreProperties keyStoreProperties;
 
