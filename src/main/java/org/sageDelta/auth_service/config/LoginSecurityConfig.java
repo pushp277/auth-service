@@ -32,7 +32,10 @@ public class LoginSecurityConfig {
         return http
                 .csrf((csrf)->csrf.disable())
                 .authorizeHttpRequests((auth) ->
-                        auth.requestMatchers("/api/v1/logout", "/api/v1/default", "/api/v1/login",
+                        auth.requestMatchers("/api/v1/logout",
+                                        "/api/v1/oauth2/token/**",
+                                        "/api/v1/oauth2/refresh/**",
+                                        "/api/v1/login",
                                         "/api/v1/logout/**", "/api/v1/create/**").permitAll()
 
                                 .anyRequest().authenticated())

@@ -16,33 +16,33 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * LoginValidationError
+ * TimestampResponse
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-15T10:29:50.506043387Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
-public class LoginValidationError {
+public class TimestampResponse {
 
-  private @Nullable String message;
+  private @Nullable String timestamp;
 
-  public LoginValidationError message(@Nullable String message) {
-    this.message = message;
+  public TimestampResponse timestamp(@Nullable String timestamp) {
+    this.timestamp = timestamp;
     return this;
   }
 
   /**
-   * Get message
-   * @return message
+   * Get timestamp
+   * @return timestamp
    */
   
-  @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("message")
-  public @Nullable String getMessage() {
-    return message;
+  @Schema(name = "timestamp", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("timestamp")
+  public @Nullable String getTimestamp() {
+    return timestamp;
   }
 
-  @JsonProperty("message")
-  public void setMessage(@Nullable String message) {
-    this.message = message;
+  @JsonProperty("timestamp")
+  public void setTimestamp(@Nullable String timestamp) {
+    this.timestamp = timestamp;
   }
 
   @Override
@@ -53,20 +53,20 @@ public class LoginValidationError {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    LoginValidationError loginValidationError = (LoginValidationError) o;
-    return Objects.equals(this.message, loginValidationError.message);
+    TimestampResponse timestampResponse = (TimestampResponse) o;
+    return Objects.equals(this.timestamp, timestampResponse.timestamp);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(message);
+    return Objects.hash(timestamp);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class LoginValidationError {\n");
-    sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("class TimestampResponse {\n");
+    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * JWTClaims
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-15T09:24:14.068569718Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-15T10:29:50.506043387Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class JWTClaims {
 
   private @Nullable String jti;

@@ -14,6 +14,7 @@ import org.sageDelta.auth_service.model.LoginValidationError;
 import org.springframework.lang.Nullable;
 import org.sageDelta.auth_service.model.RefreshTokenRequest;
 import org.sageDelta.auth_service.model.RefreshTokenResponse;
+import org.sageDelta.auth_service.model.TimestampResponse;
 import org.sageDelta.auth_service.model.User;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,7 +43,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-14T09:08:03.513235097Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-15T10:29:50.506043387Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 @Validated
 @Tag(name = "client api", description = "the client api API")
 public interface ApiApi {
@@ -359,6 +360,43 @@ public interface ApiApi {
     default ResponseEntity<Void> logoutUser(
         @NotNull @Parameter(name = "SESSION_", description = "", required = true, in = ParameterIn.COOKIE) @CookieValue(name = "SESSION_") String SESSION_
     ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    String PATH_TIMESTAMP = "/api/v1/timestamp";
+    /**
+     * GET /api/v1/timestamp
+     *
+     * @return current system time (status code 200)
+     */
+    @Operation(
+        operationId = "timestamp",
+        tags = { "timestamp" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "current system time", content = {
+                @Content(mediaType = "appliction/json", schema = @Schema(implementation = TimestampResponse.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = ApiApi.PATH_TIMESTAMP,
+        produces = { "appliction/json" }
+    )
+    default ResponseEntity<TimestampResponse> timestamp(
+        
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("appliction/json"))) {
+                    String exampleString = "Custom MIME type example not yet supported: appliction/json";
+                    ApiUtil.setExampleResponse(request, "appliction/json", exampleString);
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

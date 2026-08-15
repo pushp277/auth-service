@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.sageDelta.auth_service.model.JWTClaims;
 import org.sageDelta.auth_service.properties.KeyStoreProperties;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.ObjectMapper;
 import java.util.Date;
 
 @Service
@@ -23,7 +22,7 @@ public class JwtTokenService {
 
     public String getJwt(JWTClaims claims) {
 
-        long expTime = System.currentTimeMillis() + keyStoreProperties.accessTokenExpiry().getSeconds();
+        long expTime = System.currentTimeMillis() + keyStoreProperties.accessTokenExpiry().toMillis();
         Date ist = new Date();
         Date exp = new Date(expTime);
         log.info("issue date: {} expiry date: {}", ist, expTime);
