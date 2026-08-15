@@ -7,9 +7,11 @@ import org.sageDelta.auth_service.exceptions.clients.ClientNotFoundException;
 import org.sageDelta.auth_service.exceptions.clients.ClientUrlNotFoundException;
 import org.sageDelta.auth_service.model.CreateTokenRequest;
 import org.sageDelta.auth_service.model.CreateTokenResponse;
+import org.sageDelta.auth_service.model.JWTClaims;
 import org.sageDelta.auth_service.services.token.JwtTokenService;
 import org.sageDelta.auth_service.utils.Utils;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -26,6 +28,7 @@ public class ClientService {
     private final RedisTemplate<String, String> redisTemplate;
     private final List<BasicClient> clients;
     private final JwtTokenService jwtTokenService;
+
 
 
     public URI authorize(
@@ -81,8 +84,17 @@ public class ClientService {
         CreateTokenResponse response = new CreateTokenResponse();
 
         //Since the user is authorized created a cache for the user
+        JWTClaims claims = new JWTClaims();
+        claims.setAud(request.getClientId());
+        claims.setJti(request.getAuthorizationCode());
+        claims.setRole("USER");
+        claims.setIss("SageDelta");
 
-        response.setAccessToken(jwtTokenService.getJwt(request));
+        if(SecurityContextHolder.getContext().getAuthentication() != null)
+            claims.setSub(SecurityContextHolder.getContext().getAuthentication().getName());
+
+
+        response.setAccessToken(jwtTokenService.getJwt(claims));
         response.setRefreshToken(Utils.generateRefreshToken());
 
         return response;

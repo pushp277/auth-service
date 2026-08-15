@@ -6,11 +6,11 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.sageDelta.auth_service.model.JWTClaims;
+import org.sageDelta.auth_service.properties.KeyStoreProperties;
 import org.springframework.stereotype.Service;
-import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
-
-import java.util.Map;
+import java.util.Date;
 
 @Service
 @Slf4j
@@ -19,26 +19,28 @@ public class JwtTokenService {
 
     private final ECDSASigner signer;
     private final ObjectMapper objectMapper;
+    private final JWSHeader header;
+    private final KeyStoreProperties keyStoreProperties;
 
-    public String getJwt(Object payloadData) {
+    public String getJwt(JWTClaims claims) {
 
-        if(payloadData == null)
+        long expTime = System.currentTimeMillis() + keyStoreProperties.accessTokenExpiry().getSeconds();
+        Date ist = new Date();
+        Date exp = new Date(expTime);
+        log.info("issue date: {} expiry date: {}", ist, expTime);
+        if(claims == null)
             throw new IllegalArgumentException("payloadData is null");
 
         try {
-            JWSHeader header = new JWSHeader
-                    .Builder(JWSAlgorithm.ES256)
-                    .type(new JOSEObjectType("JWT"))
+            JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+                    .jwtID(claims.getJti())
+                    .subject(claims.getSub())
+                    .audience(claims.getAud())
+                    .issuer(claims.getIss())
+                    .issueTime(ist)
+                    .claim("role", claims.getRole())
+                    .expirationTime(exp)
                     .build();
-
-
-
-            Map<String, Object> claimsMap = objectMapper.convertValue(
-                    payloadData,
-                    new TypeReference<Map<String, Object>>() {}
-            );
-
-            JWTClaimsSet claimsSet = JWTClaimsSet.parse(claimsMap);
 
             SignedJWT signedJWT = new SignedJWT(header,claimsSet);
 

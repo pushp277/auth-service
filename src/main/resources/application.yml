@@ -2,12 +2,8 @@ spring:
   application:
     name: auth-service
     group: com.sageDelta
-  config:
-    import:
-      - optional:classpath:config/admin.yaml
-      - optional:classpath:config/secret.yaml
 
-# managing server configuration
+# managing server properties
 ---
 server:
   port: 8003
@@ -66,15 +62,8 @@ clients:
 
 # keyStore properties
 key-store:
-  algorithm: ES
-  private-key: |
-    ${JWT_PRIVATE_KEY:-----BEGIN PRIVATE KEY-----
-  MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgHUD+BshuFLbqexSy
-  lgUp0Hx149SE3s6rBZcWrugBdGShRANCAATIYzcKdAKDlPo26DQf+BslPB6CrS3S
-  7opqhbiCCnkHazr7aVx/spL2C5/2pVDfcqiDxBfyvfSVYMZy59LAc+4p
-  -----END PRIVATE KEY-----}
-  public-key: |
-    ${JWT_PUBLIC_KEY:-----BEGIN PUBLIC KEY-----
-  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEyGM3CnQCg5T6Nug0H/gbJTwegq0t
-  0u6KaoW4ggp5B2s6+2lcf7KS9guf9qVQ33Kog8QX8r30lWDGcufSwHPuKQ==
-  -----END PUBLIC KEY-----}
+  algorithm: EC
+  private-key: ${KEY_STORE_PRIVATE:MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgHUD+BshuFLbqexSylgUp0Hx149SE3s6rBZcWrugBdGShRANCAATIYzcKdAKDlPo26DQf+BslPB6CrS3S7opqhbiCCnkHazr7aVx/spL2C5/2pVDfcqiDxBfyvfSVYMZy59LAc+4p}
+  public-key: ${KEY_STORE_PUBLIC:MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEyGM3CnQCg5T6Nug0H/gbJTwegq0t0u6KaoW4ggp5B2s6+2lcf7KS9guf9qVQ33Kog8QX8r30lWDGcufSwHPuKQ==}
+  access-token-expiry: 30m
+  refresh-token-expiry: 30d
