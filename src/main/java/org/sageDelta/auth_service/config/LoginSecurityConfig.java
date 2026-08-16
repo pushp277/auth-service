@@ -70,8 +70,7 @@ public class LoginSecurityConfig {
                 .logout(logout ->
                         logout
                                 .clearAuthentication(true)
-                                .deleteCookies()
-                                .logoutSuccessHandler())
+                                .deleteCookies())
                 .rememberMe(remember -> remember
                         .rememberMeParameter("rememberMe")
                         .key(sessionConfig.rememberMeSecret())

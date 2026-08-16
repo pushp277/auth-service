@@ -16,44 +16,33 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 /**
- * CreateNewUserError
+ * LoginValidationError
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-16T03:38:39.777959877Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
-public class CreateNewUserError {
+public class LoginValidationError {
 
-  private String code;
+  private @Nullable String message;
 
-  public CreateNewUserError() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public CreateNewUserError(String code) {
-    this.code = code;
-  }
-
-  public CreateNewUserError code(String code) {
-    this.code = code;
+  public LoginValidationError message(@Nullable String message) {
+    this.message = message;
     return this;
   }
 
   /**
-   * Get code
-   * @return code
+   * Get message
+   * @return message
    */
-  @NotNull 
-  @Schema(name = "code", requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("code")
-  public String getCode() {
-    return code;
+  
+  @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("message")
+  public @Nullable String getMessage() {
+    return message;
   }
 
-  @JsonProperty("code")
-  public void setCode(String code) {
-    this.code = code;
+  @JsonProperty("message")
+  public void setMessage(@Nullable String message) {
+    this.message = message;
   }
 
   @Override
@@ -64,20 +53,20 @@ public class CreateNewUserError {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CreateNewUserError createNewUserError = (CreateNewUserError) o;
-    return Objects.equals(this.code, createNewUserError.code);
+    LoginValidationError loginValidationError = (LoginValidationError) o;
+    return Objects.equals(this.message, loginValidationError.message);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(code);
+    return Objects.hash(message);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CreateNewUserError {\n");
-    sb.append("    code: ").append(toIndentedString(code)).append("\n");
+    sb.append("class LoginValidationError {\n");
+    sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");
     return sb.toString();
   }

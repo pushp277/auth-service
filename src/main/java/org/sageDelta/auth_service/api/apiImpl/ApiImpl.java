@@ -2,7 +2,6 @@ package org.sageDelta.auth_service.api.apiImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.sageDelta.auth_service.api.ApiApi;
 import org.sageDelta.auth_service.model.*;
 import org.sageDelta.auth_service.services.userService.AuthUiService;
 import org.sageDelta.auth_service.services.userService.ClientService;

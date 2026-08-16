@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * RefreshTokenResponse
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-16T03:26:19.252408590Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-16T03:38:39.777959877Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class RefreshTokenResponse {
 
   private String refreshToken;
