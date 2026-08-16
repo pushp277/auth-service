@@ -11,7 +11,6 @@ import org.sageDelta.auth_service.security.beans.LoginEntryPoint;
 import org.sageDelta.auth_service.properties.SessionProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.ErrorResponse;
 import tools.jackson.databind.ObjectMapper;
 
 import java.util.Optional;
@@ -58,7 +56,9 @@ public class LoginSecurityConfig {
                 })
                 .formLogin((form) -> form
                         .loginProcessingUrl("/api/v1/login")
-                        .failureHandler((request, response, exception) -> {
+                        .failureHandler((request,
+                                         response,
+                                         exception) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
@@ -67,6 +67,11 @@ public class LoginSecurityConfig {
 
                             objectMapper.writeValue(response.getWriter(), errorResponse);
                         }))
+                .logout(logout ->
+                        logout
+                                .clearAuthentication(true)
+                                .deleteCookies()
+                                .logoutSuccessHandler())
                 .rememberMe(remember -> remember
                         .rememberMeParameter("rememberMe")
                         .key(sessionConfig.rememberMeSecret())

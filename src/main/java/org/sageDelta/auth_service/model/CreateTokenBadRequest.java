@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * CreateTokenBadRequest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-15T10:29:50.506043387Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-16T03:26:19.252408590Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class CreateTokenBadRequest {
 
   private @Nullable String code;

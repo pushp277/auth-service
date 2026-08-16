@@ -19,10 +19,12 @@ import jakarta.annotation.Generated;
  * RefreshTokenRequest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-15T10:29:50.506043387Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-16T03:26:19.252408590Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class RefreshTokenRequest {
 
   private String refreshToken;
+
+  private String clientId;
 
   public RefreshTokenRequest() {
     super();
@@ -31,8 +33,9 @@ public class RefreshTokenRequest {
   /**
    * Constructor with only required parameters
    */
-  public RefreshTokenRequest(String refreshToken) {
+  public RefreshTokenRequest(String refreshToken, String clientId) {
     this.refreshToken = refreshToken;
+    this.clientId = clientId;
   }
 
   public RefreshTokenRequest refreshToken(String refreshToken) {
@@ -56,6 +59,27 @@ public class RefreshTokenRequest {
     this.refreshToken = refreshToken;
   }
 
+  public RefreshTokenRequest clientId(String clientId) {
+    this.clientId = clientId;
+    return this;
+  }
+
+  /**
+   * Get clientId
+   * @return clientId
+   */
+  @NotNull 
+  @Schema(name = "clientId", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("clientId")
+  public String getClientId() {
+    return clientId;
+  }
+
+  @JsonProperty("clientId")
+  public void setClientId(String clientId) {
+    this.clientId = clientId;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -65,12 +89,13 @@ public class RefreshTokenRequest {
       return false;
     }
     RefreshTokenRequest refreshTokenRequest = (RefreshTokenRequest) o;
-    return Objects.equals(this.refreshToken, refreshTokenRequest.refreshToken);
+    return Objects.equals(this.refreshToken, refreshTokenRequest.refreshToken) &&
+        Objects.equals(this.clientId, refreshTokenRequest.clientId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(refreshToken);
+    return Objects.hash(refreshToken, clientId);
   }
 
   @Override
@@ -78,6 +103,7 @@ public class RefreshTokenRequest {
     StringBuilder sb = new StringBuilder();
     sb.append("class RefreshTokenRequest {\n");
     sb.append("    refreshToken: ").append(toIndentedString(refreshToken)).append("\n");
+    sb.append("    clientId: ").append(toIndentedString(clientId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

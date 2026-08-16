@@ -3,9 +3,7 @@ package org.sageDelta.auth_service.api.apiImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sageDelta.auth_service.api.ApiApi;
-import org.sageDelta.auth_service.model.CreateTokenRequest;
-import org.sageDelta.auth_service.model.CreateTokenResponse;
-import org.sageDelta.auth_service.model.User;
+import org.sageDelta.auth_service.model.*;
 import org.sageDelta.auth_service.services.userService.AuthUiService;
 import org.sageDelta.auth_service.services.userService.ClientService;
 import org.springframework.http.HttpStatus;
@@ -55,9 +53,22 @@ public class ApiImpl implements ApiApi {
     }
 
     @Override
-    public ResponseEntity<Void> logoutUser(String session){
+    public ResponseEntity<RefreshTokenResponse> generateRefreshToken(RefreshTokenRequest request){
 
-        return ResponseEntity.badRequest().build();
+       return ResponseEntity.ok(
+               clientService.refreshToken(request)
+       );
+    }
+
+    @Override
+    public ResponseEntity<TimestampResponse> timestamp(){
+
+        TimestampResponse response = new TimestampResponse();
+
+        response.setTimestamp(System.currentTimeMillis());
+        return ResponseEntity.ok(
+            response
+        );
     }
 
 }

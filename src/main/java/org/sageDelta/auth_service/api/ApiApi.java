@@ -9,8 +9,6 @@ import org.sageDelta.auth_service.model.CreateNewUserError;
 import org.sageDelta.auth_service.model.CreateTokenBadRequest;
 import org.sageDelta.auth_service.model.CreateTokenRequest;
 import org.sageDelta.auth_service.model.CreateTokenResponse;
-import org.sageDelta.auth_service.model.LoginResponse;
-import org.sageDelta.auth_service.model.LoginValidationError;
 import org.springframework.lang.Nullable;
 import org.sageDelta.auth_service.model.RefreshTokenRequest;
 import org.sageDelta.auth_service.model.RefreshTokenResponse;
@@ -43,9 +41,9 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-15T10:29:50.506043387Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-16T03:26:19.252408590Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 @Validated
-@Tag(name = "client api", description = "the client api API")
+@Tag(name = "Id provider", description = "the Id provider API")
 public interface ApiApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -66,7 +64,7 @@ public interface ApiApi {
     @Operation(
         operationId = "authorizeUser",
         summary = "authorize user",
-        tags = { "client api" },
+        tags = { "Id provider" },
         responses = {
             @ApiResponse(responseCode = "302", description = "redirect to base url with code"),
             @ApiResponse(responseCode = "400", description = "authoriztion failed for this client")
@@ -98,7 +96,7 @@ public interface ApiApi {
     @Operation(
         operationId = "createNewUser",
         summary = "create new user",
-        tags = { "client api" },
+        tags = { "Id provider" },
         responses = {
             @ApiResponse(responseCode = "200", description = "user created successfully"),
             @ApiResponse(responseCode = "400", description = "user already exists or any field is missing", content = {
@@ -286,85 +284,6 @@ public interface ApiApi {
     }
 
 
-    String PATH_LOGIN_USER = "/api/v1/login";
-    /**
-     * POST /api/v1/login : allow user to login to the system
-     * client login
-     *
-     * @return login successful (status code 200)
-     *         or bad request (status code 400)
-     */
-    @Operation(
-        operationId = "loginUser",
-        summary = "allow user to login to the system",
-        description = "client login",
-        tags = { "client api" },
-        responses = {
-            @ApiResponse(responseCode = "200", description = "login successful", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = LoginResponse.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "bad request", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = LoginValidationError.class))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.POST,
-        value = ApiApi.PATH_LOGIN_USER,
-        produces = { "application/json" },
-        consumes = { "application/x-www-form-urlencoded" }
-    )
-    default ResponseEntity<LoginResponse> loginUser(
-        
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"accessCode\" : \"accessCode\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"message\" : \"message\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
-
-    String PATH_LOGOUT_USER = "/api/v1/logout";
-    /**
-     * DELETE /api/v1/logout : revoke user refresh token and session
-     * client logout
-     *
-     * @param SESSION_  (required)
-     * @return Logout user by expiring session and refreshToken (status code 204)
-     */
-    @Operation(
-        operationId = "logoutUser",
-        summary = "revoke user refresh token and session",
-        description = "client logout",
-        tags = { "client api" },
-        responses = {
-            @ApiResponse(responseCode = "204", description = "Logout user by expiring session and refreshToken")
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.DELETE,
-        value = ApiApi.PATH_LOGOUT_USER
-    )
-    default ResponseEntity<Void> logoutUser(
-        @NotNull @Parameter(name = "SESSION_", description = "", required = true, in = ParameterIn.COOKIE) @CookieValue(name = "SESSION_") String SESSION_
-    ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
-
     String PATH_TIMESTAMP = "/api/v1/timestamp";
     /**
      * GET /api/v1/timestamp
@@ -376,23 +295,23 @@ public interface ApiApi {
         tags = { "timestamp" },
         responses = {
             @ApiResponse(responseCode = "200", description = "current system time", content = {
-                @Content(mediaType = "appliction/json", schema = @Schema(implementation = TimestampResponse.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = TimestampResponse.class))
             })
         }
     )
     @RequestMapping(
         method = RequestMethod.GET,
         value = ApiApi.PATH_TIMESTAMP,
-        produces = { "appliction/json" }
+        produces = { "application/json" }
     )
     default ResponseEntity<TimestampResponse> timestamp(
         
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("appliction/json"))) {
-                    String exampleString = "Custom MIME type example not yet supported: appliction/json";
-                    ApiUtil.setExampleResponse(request, "appliction/json", exampleString);
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"timestamp\" : 0 }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
             }

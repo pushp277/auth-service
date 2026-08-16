@@ -19,12 +19,12 @@ import jakarta.annotation.Generated;
  * TimestampResponse
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-15T10:29:50.506043387Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-16T03:26:19.252408590Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 public class TimestampResponse {
 
-  private @Nullable String timestamp;
+  private @Nullable Long timestamp;
 
-  public TimestampResponse timestamp(@Nullable String timestamp) {
+  public TimestampResponse timestamp(@Nullable Long timestamp) {
     this.timestamp = timestamp;
     return this;
   }
@@ -36,12 +36,12 @@ public class TimestampResponse {
   
   @Schema(name = "timestamp", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("timestamp")
-  public @Nullable String getTimestamp() {
+  public @Nullable Long getTimestamp() {
     return timestamp;
   }
 
   @JsonProperty("timestamp")
-  public void setTimestamp(@Nullable String timestamp) {
+  public void setTimestamp(@Nullable Long timestamp) {
     this.timestamp = timestamp;
   }
 
