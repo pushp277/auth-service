@@ -39,6 +39,7 @@ spring:
     redis:
       host: ${DATA_REDIS_HOST:localhost}
       post: ${DATA_REDIS_PORT:6379}
+      connect-timeout: 30s
 
   session:
     timeout: 1d
@@ -59,6 +60,9 @@ clients:
     redirect-urls:
       - http://localhost:3000
     client-secret: ${LETS_SPLIT_CLIENT_SECRET:g7hyJ3SDJActBtuXdb4OCN951IJUVillRrvyuSHWmV0=}
+  cors:
+    - http://localhost:3000
+    - http://localhost:8080
 
 # keyStore properties
 key-store:
@@ -67,3 +71,4 @@ key-store:
   public-key: ${KEY_STORE_PUBLIC:MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEyGM3CnQCg5T6Nug0H/gbJTwegq0t0u6KaoW4ggp5B2s6+2lcf7KS9guf9qVQ33Kog8QX8r30lWDGcufSwHPuKQ==}
   access-token-expiry: 30m
   refresh-token-expiry: 30d
+
