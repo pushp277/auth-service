@@ -17,7 +17,7 @@ server:
 ---
 logging:
   level:
-    root: WARN
+    root: INFO
     org:
       sageDelta:
         auth_service: INFO
@@ -45,6 +45,15 @@ spring:
     timeout: 1d
     remember-me-timeout: 30d # 30 days
     remember-me-secret: ${REMEMBER_ME_SECRET:wUJb/PEKXQDMhqnEP+B3GsDtI/cwCjyAdBxZ4TNg0/0=}
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGE_CLIENT_ID:366752015728-i6pjt831310ti9akhehuho9qn70qj0mr.apps.googleusercontent.com}
+            client-secret: ${GOOGLE_CLIENT_SECRET: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k}
+            scope: openid, profile, email
 
 
 

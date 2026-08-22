@@ -81,6 +81,7 @@ public class LoginSecurityConfig {
 
                             objectMapper.writeValue(response.getWriter(), errorResponse);
                         }))
+                .oauth2Login(Customizer.withDefaults())
                 .logout(logout ->
                         logout
                                 .logoutUrl("/api/v1/logout")
