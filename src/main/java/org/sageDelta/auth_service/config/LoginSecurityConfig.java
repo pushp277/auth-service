@@ -1,5 +1,6 @@
 package org.sageDelta.auth_service.config;
 
+import jakarta.servlet.Filter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -9,9 +10,11 @@ import org.sageDelta.auth_service.entity.UsersEntity;
 import org.sageDelta.auth_service.exceptions.authorize.UserDoesNotExist;
 import org.sageDelta.auth_service.model.LoginValidationError;
 import org.sageDelta.auth_service.properties.ClientsProperties;
+import org.sageDelta.auth_service.properties.GoogleOauth2Properties;
 import org.sageDelta.auth_service.repositories.UserRepository;
 import org.sageDelta.auth_service.security.beans.LoginEntryPoint;
 import org.sageDelta.auth_service.properties.SessionProperties;
+import org.sageDelta.auth_service.security.beans.OAuth2SuccessHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +30,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -48,7 +53,9 @@ public class LoginSecurityConfig {
     public SecurityFilterChain loginSecurityFilterChain(HttpSecurity http,
                                                         LoginEntryPoint loginEntryPoint,
                                                         SessionProperties sessionConfig,
-                                                        CorsConfigurationSource configurationSource) {
+                                                        CorsConfigurationSource configurationSource,
+                                                        OAuth2SuccessHandler oAuth2SuccessHandler,
+                                                        GoogleOauth2Properties googleOauth2Properties) {
 
         log.info("Security is enabled for login");
         return http
@@ -58,6 +65,7 @@ public class LoginSecurityConfig {
                         auth.requestMatchers("/api/v1/logout",
                                         "/api/v1/oauth2/token/**",
                                         "/api/v1/oauth2/refresh/**",
+                                        "/api/v1/oauth2/google/**",
                                         "/api/v1/login",
                                         "/api/v1/logout/**", "/api/v1/create/**").permitAll()
 
@@ -81,7 +89,12 @@ public class LoginSecurityConfig {
 
                             objectMapper.writeValue(response.getWriter(), errorResponse);
                         }))
-                .oauth2Login(Customizer.withDefaults())
+                .oauth2Login(oauth2 ->
+                        oauth2
+                                .redirectionEndpoint(redirect ->
+                                    redirect.baseUri("/api/v1/oauth2/*/callback"))
+                                .successHandler(oAuth2SuccessHandler)
+                                )
                 .logout(logout ->
                         logout
                                 .logoutUrl("/api/v1/logout")

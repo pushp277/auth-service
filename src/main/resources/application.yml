@@ -12,6 +12,7 @@ server:
       cookie:
         name: SESSION_
       timeout: 24h
+  use-forward-headers: true
 
 # logging
 ---
@@ -51,11 +52,11 @@ spring:
       client:
         registration:
           google:
-            client-id: ${GOOGE_CLIENT_ID:366752015728-i6pjt831310ti9akhehuho9qn70qj0mr.apps.googleusercontent.com}
-            client-secret: ${GOOGLE_CLIENT_SECRET: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k}
+            client-id: ${GOOGLE_CLIENT_ID:}
+            client-secret: ${GOOGLE_CLIENT_SECRET:}
             scope: openid, profile, email
-
-
+            redirect-uri: ${GOOGLE_REDIRECT_URL:http://localhost:8003/api/v1/oauth2/google/callback}
+            endpoint: /api/v1/oauth2/google/callback
 
 ---
 id-provider-ui:

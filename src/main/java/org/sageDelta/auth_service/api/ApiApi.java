@@ -41,7 +41,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-16T03:38:39.777959877Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-08-23T01:11:39.858282626Z[Etc/UTC]", comments = "Generator version: 7.25.0-SNAPSHOT")
 @Validated
 @Tag(name = "Id provider", description = "the Id provider API")
 public interface ApiApi {
@@ -218,13 +218,11 @@ public interface ApiApi {
     }
 
 
-    String PATH_GITHUB_CALLBACK = "/api/oauth2/github/callback";
+    String PATH_GITHUB_CALLBACK = "/api/v1/oauth2/github/callback";
     /**
-     * GET /api/oauth2/github/callback : callback with code and state
+     * GET /api/v1/oauth2/github/callback : callback with code and state
      * callback send by github id provider
      *
-     * @param code  (required)
-     * @param state  (required)
      * @return found response send by github oauth2 (status code 302)
      *         or Validation Error (status code 400)
      */
@@ -243,23 +241,19 @@ public interface ApiApi {
         value = ApiApi.PATH_GITHUB_CALLBACK
     )
     default ResponseEntity<Void> githubCallback(
-        @NotNull @Parameter(name = "code", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "code", required = true) String code,
-        @NotNull @Parameter(name = "state", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "state", required = true) String state
+        
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
 
-    String PATH_GOOGLE_CALLBACK = "/api/oauth2/google/callback";
+    String PATH_GOOGLE_CALLBACK = "/api/v1/oauth2/google/callback";
     /**
-     * GET /api/oauth2/google/callback : callback with code and state
+     * GET /api/v1/oauth2/google/callback : callback with code and state
      * callback send by google id provider
      *
-     * @param code  (required)
-     * @param state  (required)
-     * @return found response send by google oauth2 (status code 302)
-     *         or Vaidation Error (status code 400)
+     * @return Vaidation Error (status code 400)
      */
     @Operation(
         operationId = "googleCallback",
@@ -267,7 +261,6 @@ public interface ApiApi {
         description = "callback send by google id provider",
         tags = { "outh2 callback" },
         responses = {
-            @ApiResponse(responseCode = "302", description = "found response send by google oauth2"),
             @ApiResponse(responseCode = "400", description = "Vaidation Error")
         }
     )
@@ -276,8 +269,7 @@ public interface ApiApi {
         value = ApiApi.PATH_GOOGLE_CALLBACK
     )
     default ResponseEntity<Void> googleCallback(
-        @NotNull @Parameter(name = "code", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "code", required = true) String code,
-        @NotNull @Parameter(name = "state", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "state", required = true) String state
+        
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
