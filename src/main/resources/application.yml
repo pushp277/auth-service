@@ -18,7 +18,7 @@ server:
 ---
 logging:
   level:
-    root: INFO
+    root: DEBUG
     org:
       sageDelta:
         auth_service: INFO
@@ -54,9 +54,20 @@ spring:
           google:
             client-id: ${GOOGLE_CLIENT_ID:}
             client-secret: ${GOOGLE_CLIENT_SECRET:}
-            scope: openid, profile, email
+            scope:
+              - openid
+              - profile
+              - email
             redirect-uri: ${GOOGLE_REDIRECT_URL:http://localhost:8003/api/v1/oauth2/google/callback}
             endpoint: /api/v1/oauth2/google/callback
+
+          github:
+            client-id: ${GITHUB_CLIENT:}
+            client-secret: ${GITHUB_SECRET:}
+            scope:
+              - read:user
+              - user:email
+            redirect-uri: ${GITHUB_REDIRECT_URL:http://localhost:8003/api/v1/oauth2/github/callback}
 
 ---
 id-provider-ui:

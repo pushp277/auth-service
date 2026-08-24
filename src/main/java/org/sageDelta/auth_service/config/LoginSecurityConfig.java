@@ -15,6 +15,7 @@ import org.sageDelta.auth_service.repositories.UserRepository;
 import org.sageDelta.auth_service.security.beans.LoginEntryPoint;
 import org.sageDelta.auth_service.properties.SessionProperties;
 import org.sageDelta.auth_service.security.beans.OAuth2SuccessHandler;
+import org.sageDelta.auth_service.security.beans.Oauth2UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,7 +56,8 @@ public class LoginSecurityConfig {
                                                         SessionProperties sessionConfig,
                                                         CorsConfigurationSource configurationSource,
                                                         OAuth2SuccessHandler oAuth2SuccessHandler,
-                                                        GoogleOauth2Properties googleOauth2Properties) {
+                                                        GoogleOauth2Properties googleOauth2Properties,
+                                                        Oauth2UserService oauth2UserService) {
 
         log.info("Security is enabled for login");
         return http
@@ -65,7 +67,7 @@ public class LoginSecurityConfig {
                         auth.requestMatchers("/api/v1/logout",
                                         "/api/v1/oauth2/token/**",
                                         "/api/v1/oauth2/refresh/**",
-                                        "/api/v1/oauth2/google/**",
+                                        "/api/v1/oauth2/*/callback",
                                         "/api/v1/login",
                                         "/api/v1/logout/**", "/api/v1/create/**").permitAll()
 
@@ -91,6 +93,7 @@ public class LoginSecurityConfig {
                         }))
                 .oauth2Login(oauth2 ->
                         oauth2
+                                .userInfoEndpoint(userInfo -> userInfo.userService(oauth2UserService))
                                 .redirectionEndpoint(redirect ->
                                     redirect.baseUri("/api/v1/oauth2/*/callback"))
                                 .successHandler(oAuth2SuccessHandler)

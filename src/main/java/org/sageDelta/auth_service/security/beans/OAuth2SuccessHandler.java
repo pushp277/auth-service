@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -41,10 +42,9 @@ public class OAuth2SuccessHandler extends SavedRequestAwareAuthenticationSuccess
         OAuth2AuthenticationToken oauthToken =
                 (OAuth2AuthenticationToken) authentication;
 
-        OidcUser oidcUser =
-                (OidcUser) oauthToken.getPrincipal();
+        OAuth2User oidcUser = oauthToken.getPrincipal();
         log.info("openId connect username {}and email: {}",
-                oidcUser.getAttribute("name"), oidcUser.getEmail());
+                oidcUser.getAttribute("name"), oidcUser.getAttribute("email"));
 
 /*        String email = oidcUser.getEmail();
         String[] name = oidcUser.getName().split(" ");
