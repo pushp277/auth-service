@@ -3,27 +3,25 @@ package org.sageDelta.auth_service.security.beans;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.sageDelta.auth_service.dao.LoginUserDetail;
 import org.sageDelta.auth_service.entity.ContactDetailsEntity;
 import org.sageDelta.auth_service.entity.UsersEntity;
 import org.sageDelta.auth_service.enums.ProviderEnum;
 import org.sageDelta.auth_service.repositories.ContactDetailsRepository;
 import org.sageDelta.auth_service.repositories.UserRepository;
+import org.sageDelta.auth_service.utils.Utils;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -34,7 +32,6 @@ public class OAuth2SuccessHandler extends SavedRequestAwareAuthenticationSuccess
     private final UserRepository userRepository;
     private final ContactDetailsRepository contactDetailsRepository;
 
-
     @Override
     public void onAuthenticationSuccess(
           HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -42,41 +39,98 @@ public class OAuth2SuccessHandler extends SavedRequestAwareAuthenticationSuccess
         OAuth2AuthenticationToken oauthToken =
                 (OAuth2AuthenticationToken) authentication;
 
+
+        ProviderEnum provider = ProviderEnum.NIL;
+
         OAuth2User oidcUser = oauthToken.getPrincipal();
-        log.info("openId connect username {}and email: {}",
-                oidcUser.getAttribute("name"), oidcUser.getAttribute("email"));
+        String user = oidcUser.getAttribute("name");
+        String userEmail = oidcUser.getAttribute("email");
+        String oauth2Provider = oauthToken.getAuthorizedClientRegistrationId();
 
-/*        String email = oidcUser.getEmail();
-        String[] name = oidcUser.getName().split(" ");
-        UsersEntity user = new UsersEntity();
+        if(oauth2Provider.equalsIgnoreCase("google"))
+            provider = ProviderEnum.GOOGLE;
 
-        if(contactDetailsRepository.existsByEmail(email)){
-            Optional<UsersEntity> usersEntityOptional = contactDetailsRepository.findByEmail(email);
-            if(usersEntityOptional.isPresent()){
-                principal = Authentication.Builder().build();
+        if(oauth2Provider.equalsIgnoreCase("github"))
+            provider = ProviderEnum.GITHUB;
+
+        log.info("openId connect username {}, provider: {} and email: {}",
+                user, provider.getName(), userEmail);
+
+        if(user == null ||  userEmail == null) {
+            super.onAuthenticationSuccess(request, response, authentication);
+
+            return;
+        }
+
+        Optional<ContactDetailsEntity> contactDetailsEntityOptional = contactDetailsRepository.findByEmail(userEmail);
+
+
+        Authentication currAuth =  SecurityContextHolder.getContext().getAuthentication();
+
+
+        if(contactDetailsEntityOptional.isPresent()) {
+
+            Optional<UsersEntity> usersEntityOptional = userRepository.findByContactDetails(contactDetailsEntityOptional.get());
+            if (usersEntityOptional.isPresent()) {
+
+                LoginUserDetail userDetail = LoginUserDetail.builder()
+                        .username(usersEntityOptional.get().getUsername())
+                        .provider(provider)
+                        .authorities(List.of(new SimpleGrantedAuthority("ROLE_USER")))
+                        .email(userEmail)
+                        .build();
+
+                Authentication newAuth = new UsernamePasswordAuthenticationToken(
+                        userDetail,
+                        currAuth.getCredentials(),
+                        userDetail.getAuthorities()
+                );
+
+                SecurityContextHolder.getContext().setAuthentication(newAuth);
+                super.onAuthenticationSuccess(request,response,authentication);
+                return;
             }
         }
 
-        ContactDetailsEntity contactDetails = new ContactDetailsEntity();
-        contactDetails.setEmail(oidcUser.getEmail());
+        ContactDetailsEntity contactDetailsEntity = new ContactDetailsEntity();
+        UsersEntity usersEntity = new UsersEntity();
 
-        user.setFirstName(name[0]);
-        user.setUsername(oidcUser.getEmail());
+        contactDetailsEntity.setEmail(userEmail);
+        ContactDetailsEntity savedContactDetail = contactDetailsRepository.save(contactDetailsEntity);
 
-        if(name.length > 1){
-            user.setLastName(name[1]);
+
+        String[] userContent = user.split(" ");
+
+        String userName = userContent[0] + Utils.generateSalt();
+
+        usersEntity.setUsername(userName);
+        usersEntity.setPassword(Utils.generateSalt());
+        usersEntity.setFirstName(userContent[0]);
+
+        if(userContent.length > 1){
+            usersEntity.setLastName(userContent[1]);
         }
+        usersEntity.setProvider(provider.getName());
+        usersEntity.setContactDetails(savedContactDetail);
 
-        user.setProvider(ProviderEnum.GOOGLE.getName());
-*/
+        userRepository.save(usersEntity);
 
-        HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
+        LoginUserDetail userDetail = LoginUserDetail
+                .builder()
+                .authorities(List.of(new SimpleGrantedAuthority("ROLE_USER")))
+                .username(userName)
+                .provider(provider)
+                .email(userEmail)
+                .build();
 
-        SavedRequest savedRequest = requestCache.getRequest(request, response);
 
-        if (savedRequest != null) {
-            log.info("Saved request URL = {}", savedRequest.getRedirectUrl());
-        }
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(
+                userDetail,
+                currAuth.getCredentials(),
+                userDetail.getAuthorities()
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
 
         super.onAuthenticationSuccess(request,response,authentication);
     }

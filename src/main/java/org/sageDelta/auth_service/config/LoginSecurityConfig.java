@@ -6,7 +6,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
+import org.sageDelta.auth_service.dao.LoginUserDetail;
 import org.sageDelta.auth_service.entity.UsersEntity;
+import org.sageDelta.auth_service.enums.ProviderEnum;
 import org.sageDelta.auth_service.exceptions.authorize.UserDoesNotExist;
 import org.sageDelta.auth_service.model.LoginValidationError;
 import org.sageDelta.auth_service.properties.ClientsProperties;
@@ -26,6 +28,8 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -137,10 +141,13 @@ public class LoginSecurityConfig {
                 throw new UserDoesNotExist("User doesn't exist");
             }
 
+            List<GrantedAuthority> roles = List.of(new SimpleGrantedAuthority("ROLE_USER"));
 
-            return User.builder()
-                    .username(userEntity.get().getUsername())
-                    .password(userEntity.get().getPassword())
+            return LoginUserDetail.builder()
+                    .username(username)
+                    .email(userEntity.get().getContactDetails().getEmail())
+                    .provider(ProviderEnum.SAGE_DELTA)
+                    .authorities(roles)
                     .build();
         };
 

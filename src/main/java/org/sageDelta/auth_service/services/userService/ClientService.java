@@ -1,8 +1,10 @@
 package org.sageDelta.auth_service.services.userService;
 
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sageDelta.auth_service.clients.BasicClient;
+import org.sageDelta.auth_service.dao.LoginUserDetail;
 import org.sageDelta.auth_service.exceptions.clients.ClientNotFoundException;
 import org.sageDelta.auth_service.exceptions.clients.ClientUrlNotFoundException;
 import org.sageDelta.auth_service.model.*;
@@ -50,10 +52,15 @@ public class ClientService {
 
             String authCode = Utils.getAuthCode();
 
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if(authentication ==  null)
+                throw new IllegalStateException("Authentication can't be null");
+
+        LoginUserDetail userDetail = (LoginUserDetail) authentication.getPrincipal();
             redisTemplate.opsForValue().set(
                     client.clientId()+"::"+authCode+"::" + client.clientSecret(), // clientId::authCode::clientSecret
-                    new Object(),
-                    60,
+                    userDetail==null ? LoginUserDetail.builder().build() : userDetail,
+                    120,
                     TimeUnit.SECONDS
             );
 
@@ -73,15 +80,20 @@ public class ClientService {
                 .orElseThrow(()-> new ClientNotFoundException("Client not found"));
 
 
-        String key = client.clientId() + "::"+ request.getAuthorizationCode() + "::" + client.clientSecret();
-        boolean optionalKey = Boolean.TRUE.equals(redisTemplate.hasKey(key));
+        String key = client.clientId() + "::" + request.getAuthorizationCode() + "::" + client.clientSecret();
 
-        if(!optionalKey)
+        Object cachedObject = redisTemplate.opsForValue().get(key);
+
+        if (cachedObject == null) {
             throw new ClientNotFoundException("auth token is wrong or expired");
+        }
 
+        if (!(cachedObject instanceof LoginUserDetail)) {
+            throw new IllegalStateException("Stored session data is not of type LoginUserDetail");
+        }
 
-
-        AccessAndRefreshToken accessAndRefreshToken = createRefreshAndAccessToken(request.getClientId());
+        LoginUserDetail loginUserDetail = (LoginUserDetail) cachedObject;
+        AccessAndRefreshToken accessAndRefreshToken = createRefreshAndAccessToken(request.getClientId(), loginUserDetail);
 
         CreateTokenResponse response = new CreateTokenResponse();
 
@@ -93,7 +105,30 @@ public class ClientService {
 
     public RefreshTokenResponse refreshToken(RefreshTokenRequest request){
         RefreshTokenResponse response = new RefreshTokenResponse();
-        AccessAndRefreshToken accessAndRefreshToken = createRefreshAndAccessToken(request.getClientId());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("Authentication cannot be null or unauthenticated");
+        }
+
+        Object principal = authentication.getPrincipal();
+
+        if (!(principal instanceof LoginUserDetail)) {
+            throw new IllegalStateException("Principal is not of type LoginUserDetail, found: " +
+                    (principal != null ? principal.getClass().getName() : "null"));
+        }
+
+        LoginUserDetail loginUserDetail = (LoginUserDetail) principal;
+
+
+        String refreshKey = "refreshToken:"+loginUserDetail.getUsername()+":"+request.getRefreshToken();
+        boolean optionalKey = Boolean.TRUE.equals(redisTemplate.hasKey(refreshKey));
+
+        if(!optionalKey)
+            throw new ClientNotFoundException("refreshToken is wrong or expired");
+
+
+        AccessAndRefreshToken accessAndRefreshToken = createRefreshAndAccessToken(request.getClientId(), loginUserDetail);
         response.setAccessToken(accessAndRefreshToken.accessToken());
         response.setRefreshToken(accessAndRefreshToken.refreshToken());
 
@@ -101,33 +136,26 @@ public class ClientService {
     }
 
 
-    private AccessAndRefreshToken createRefreshAndAccessToken(String clientId){
+    private AccessAndRefreshToken createRefreshAndAccessToken(String clientId,  LoginUserDetail loginUserDetail){
         String jti = Utils.generateSalt();
         JWTClaims claims = new JWTClaims();
         claims.setAud(clientId);
+        claims.setSub(loginUserDetail.getUsername());
         claims.setJti(jti);
         claims.setRole("USER");
         claims.setIss("SageDelta");
 
-        if(SecurityContextHolder.getContext().getAuthentication() != null)
-            claims.setSub(SecurityContextHolder.getContext().getAuthentication().getName());
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if(authentication == null)
-            throw new IllegalStateException("[createRefreshAndAccessToken] User is not Authenticated");
 
         String refreshToken = Utils.generateRefreshToken();
-        String username = authentication.getName();
 
-        String refreshKey = "refreshToken:"+username+":"+refreshToken;
+        String refreshKey = "refreshToken:"+loginUserDetail.getUsername()+":"+refreshToken;
         redisTemplate.opsForValue().set(
                 refreshKey,
-                new Object(),
+                loginUserDetail,
                 1,
                 TimeUnit.DAYS);
 
-        String accessToken = jwtTokenService.getJwt(claims);
+        String accessToken = jwtTokenService.getJwt(claims, loginUserDetail);
 
         return new AccessAndRefreshToken(accessToken, refreshToken);
     }

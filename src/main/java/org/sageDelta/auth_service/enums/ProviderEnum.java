@@ -5,7 +5,8 @@ import java.util.List;
 public enum ProviderEnum {
      GOOGLE,
     GITHUB,
-    SAGE_DELTA;
+    SAGE_DELTA,
+    NIL;
 
     private ProviderEnum(){}
 
