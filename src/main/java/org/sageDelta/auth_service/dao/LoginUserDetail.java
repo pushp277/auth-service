@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class LoginUserDetail implements UserDetails, Serializable {
     private String username;
-    private String password;
+    private transient String password;
     private ProviderEnum provider;
     private String email;
     private List<GrantedAuthority> authorities;
