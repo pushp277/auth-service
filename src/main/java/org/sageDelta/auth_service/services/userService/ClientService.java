@@ -1,6 +1,5 @@
 package org.sageDelta.auth_service.services.userService;
 
-import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sageDelta.auth_service.clients.BasicClient;
